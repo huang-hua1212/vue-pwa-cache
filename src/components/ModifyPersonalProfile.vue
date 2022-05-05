@@ -1,0 +1,353 @@
+<template>
+  <div class="container modifyPersonalProfiles">
+    <div class="modifyPersonalProfile">
+      <div class="pos_1">
+        <div class="above"><h3>修改個人資料</h3></div>
+        <div class="under"></div>
+      </div>
+      <div class="pos_2">
+        <div class="modifyArea">
+          <ul class="tab-list">
+            <li class="tab-itom">
+              <input type="radio" id="tabRadio1" class="test-radio" name="tab" checked="checked" />
+              <label class="test-label" for="tabRadio1">暱稱修改</label>
+              <div class="tab-box">
+                <div class="content">
+                  <div
+                    class="headImg"
+                    style="
+                      background: url('https://images.unsplash.com/photo-1603384698993-e5865da085c8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1507&q=80');
+                      background-size: cover;
+                      background-position: center;
+                      overflow: hidden;
+                    "
+                  ></div>
+                  <a type="button" class="uploadImg-A" href="#" @click.prevent=""
+                    ><div class="uploadImg">上傳大頭照</div></a
+                  >
+                  <div class="nickName-Form">
+                    <label class="nickName-Form-Label">暱稱</label><br />
+                    <input type="text" class="nickName-form-text" placeholder="輸入暱稱..." />
+                  </div>
+                  <div class="sexForm">
+                    <label class="sexLabel">性別</label><br />
+                    <div class="sexRadio">
+                      <input id="manRadio" type="radio" name="sexRadio" />
+                      <label for="manRadio" class="sexRadioLabel">男性</label>
+                      <input id="womanRadio" class="womanRadioInput" type="radio" name="sexRadio" />
+                      <label for="womanRadio" class="sexRadioLabel">女性</label>
+                    </div>
+                  </div>
+                  <div class="sendBtn">
+                    <a type="button" class="send-A" href="#" @click.prevent="">送出更新</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="tab-itom">
+              <input type="radio" id="tabRadio2" class="test-radio" name="tab" />
+              <label class="test-label" for="tabRadio2">重設密碼</label>
+              <div class="tab-box">
+                <div class="content">
+                  <div class="password1-Form">
+                    <label class="password1-Form-Label" for="password1">輸入新密碼</label><br />
+                    <input
+                      type="text"
+                      id="password1"
+                      class="password1-form-text"
+                      placeholder="輸入新密碼..."
+                    />
+                  </div>
+                  <div class="password2-Form">
+                    <label class="password2-Form-Label" for="password2">再次輸入密碼</label><br />
+                    <input
+                      type="text"
+                      id="password2"
+                      class="password2-form-text"
+                      placeholder="再次輸入密碼..."
+                    />
+                  </div>
+                  <div class="passwordBtn">
+                    <a type="button" class="uploadImg-A" href="#" @click.prevent=""
+                      ><div>重設密碼</div></a
+                    >
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+  created() {},
+  methods: {},
+};
+</script>
+<style lang="scss" scoped>
+.modifyPersonalProfile {
+  margin-left: 0em;
+  padding-right: 2%;
+  height: 50em;
+}
+.modifyPersonalProfile {
+  margin: 0;
+  margin-bottom: 1.5em;
+  text-align: left;
+  vertical-align: middle;
+  padding-bottom: 1.5em;
+}
+.pos_1 {
+  height: 4em;
+  position: relative;
+}
+.under {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  right: 0.1em;
+  top: 0.4em;
+  background: white;
+  border: black solid;
+  z-index: 0;
+}
+.above {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  border: black solid;
+  z-index: 100;
+  text-align: center;
+  vertical-align: middle;
+}
+// tabs
+.pos_2 {
+  margin-top: 2.2em;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+.modifyArea {
+  zoom: 1;
+}
+.modifyArea::after {
+  display: block;
+  clear: both;
+  content: '';
+  visibility: hidden;
+  height: 0;
+}
+
+.tab-list {
+  position: relative;
+}
+
+.tab-list .tab-itom {
+  float: left;
+  list-style: none;
+  //   margin-right: 4px;
+  margin-left: 0.5em;
+}
+
+.tab-itom .test-label {
+  position: relative;
+  display: block;
+  width: 6em;
+  height: 2em;
+  border: black solid;
+  border-top-left-radius: 0.3em;
+  border-top-right-radius: 0.3em;
+  line-height: 2em;
+  text-align: center;
+  background: #ffffff;
+  //   background: #e7e8eb;
+}
+
+.tab-itom .tab-box {
+  /* 設定絕對定位方便定位相對於tab-list欄的位置，同時為了可以使用z-index屬性 */
+  position: absolute;
+  left: 0;
+  top: 2.15em;
+  width: 100%;
+  padding-bottom: 4em;
+  height: auto; // tab content高度
+  border: black solid; // 1px solid #cbcccc;
+  border-radius: 0.5em;
+  border-top-left-radius: 0px;
+  background: #fff;
+  /* 設定層級最低方便選中狀態遮擋 */
+  z-index: 0;
+//   shadow
+ box-shadow: 0 0.2em 0em -0.005em black;
+}
+/* 用絕對定位使按鈕脫離文件流，透明度設定為0將其隱藏 */
+input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+}
+/* 利用選擇器實現  tab切換 */
+
+/* 當radio為選中狀態時設定它的test-label兄弟元素的屬性 */
+input[type='radio']:checked + .test-label {
+  /* 為了修飾存在的邊框背景屬性 */
+  border-color: black;
+  //   border-bottom-color: #fff;
+  color: white;
+  background: black;
+  /* 為了修飾存在的層級使下邊框遮擋下方div的上邊框 */
+  z-index: 10;
+}
+/* 當radio為選中狀態時設定與它同級的tab-box元素的顯示層級 */
+input[type='radio']:checked ~ .tab-box {
+  /* 選中時提升層級，遮擋其他tab頁達到選中切換的效果 */
+  z-index: 5;
+}
+input[type='radio']:not(:checked) ~ .tab-box {
+  /* 選中時提升層級，遮擋其他tab頁達到選中切換的效果 */
+  display: none;
+}
+.content {
+  width: 100%;
+  height: auto;
+  margin-top: 2.5em;
+  vertical-align: middle;
+  text-align: center;
+}
+.content .headImg {
+  position: relative;
+  border-radius: 50%;
+  width: 10em;
+  //   height: auto;
+  padding-top: 10em;
+  background: white;
+  border: black solid;
+  margin: auto;
+}
+.uploadImg {
+  margin-left: 32.5%;
+  margin-top: 2em;
+  width: 35%;
+  line-height: 2.5em;
+  background: black;
+  color: white;
+}
+.nickName-Form,
+.password1-Form,
+.password2-Form {
+  margin-left: 20%;
+  margin-top: 1.5em;
+  width: 60%;
+}
+.nickName-Form-Label,
+.password1-Form-Label,
+.password2-Form-Label {
+  float: left;
+  font-weight: bold;
+  margin-left: 0;
+  margin-bottom: 0.3em;
+  font-size: 1em;
+}
+.nickName-form-text,
+.password1-form-text,
+.password2-form-text {
+  width: 98%;
+  line-height: 1.5em;
+  font-size: 1em;
+  border: black solid;
+}
+.sexForm {
+  margin-left: 20%;
+  margin-top: 2em;
+  width: 60%;
+}
+.sexLabel {
+  float: left;
+  font-weight: bold;
+  margin-left: 0;
+  margin-bottom: 0.3em;
+  font-size: 1em;
+}
+.sexRadio {
+  margin-left: 0;
+  margin-top: 0.8em;
+  display: flex;
+}
+.sexRadio .sexRadioLabel {
+  position: relative;
+  float: left;
+  clear: left;
+  display: block;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  margin-bottom: 1em;
+  line-height: 1em;
+  font-size: 1em;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+.sexRadioLabel:before {
+  background: #fff;
+  content: '';
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  left: 0;
+  width: 0.8em;
+  height: 0.8em;
+  border: 0.05em solid rgb(0, 0, 0);
+
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+
+  box-shadow: inset 0 0 3px 0 #ccc;
+  -moz-box-shadow: inset 0 0 3px 0 #ccc;
+  -webkit-box-shadow: inset 0 0 3px 0 #ccc;
+}
+.sexRadio input[type='radio'] {
+  display: none;
+}
+.sexRadio input[type='radio']:checked + label:before {
+  content: '\2022';
+  text-align: center;
+  line-height: 0.7em;
+  font-family: Tahoma;
+  font-size: 1em;
+  color: #020202;
+  //   text-shadow: 0 0 10em #bbb;
+}
+.sendBtn {
+  margin-left: 20%;
+  width: 60%;
+  border: black solid;
+  border-radius: 0.5em;
+  line-height: 2.5em;
+  background: #eec32a;
+  box-shadow: -0.1em 0.1em 0em 0 black;
+}
+.send-A {
+  color: black;
+  // font-weight: bold;
+}
+.passwordBtn {
+  margin-top: 8%;
+  margin-left: 20%;
+  width: 60%;
+  border: #8b8d8f solid;
+  border-radius: 0.5em;
+  background: #a8b0b9;
+  line-height: 2.5em;
+}
+.passwordBtn a {
+    color: white;
+    font-family: sans;
+}
+</style>

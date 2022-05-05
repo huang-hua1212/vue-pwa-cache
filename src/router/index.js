@@ -1,11 +1,42 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '../views/Home.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Page1',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Page1.vue'),
+    children: [
+      {
+        path: 'create-post',
+        name: 'CreatePost',
+        component: () => import('@/components/CreatePost.vue'),
+      },
+      {
+        path: 'posts',
+        name: 'Posts',
+        component: () => import('@/components/Posts.vue'),
+      },
+      {
+        path: 'posts-with-comments',
+        name: 'PostsWithComments',
+        component: () => import('@/components/PostsWithComments.vue'),
+      },
+      {
+        path: 'followers-list',
+        name: 'FollowersList',
+        component: () => import('@/components/FollowersList.vue'),
+      },
+      {
+        path: 'modify-personal-profile',
+        name: 'ModifyPersonalProfile',
+        component: () => import('@/components/ModifyPersonalProfile.vue'),
+      },
+      {
+        path: 'likes-list',
+        name: 'LikesList',
+        component: () => import('@/components/LikesList.vue'),
+      },
+    ],
   },
   {
     path: '/about',
