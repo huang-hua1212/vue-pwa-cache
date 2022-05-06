@@ -193,6 +193,7 @@ img {
   line-height: 2.3em;
   background: #a8b0b9;
   color: black;
+  font-weight: bold;
   // box-shadow: -0.18em 0.18em 0em -0.005em black;
 }
 .sendOutBtn-Active {
