@@ -2,7 +2,10 @@
   <div class="sidebar">
     <div class="side-w">
       <div class="postBtn">
-        <a class="postA" type="button" href="#" @click.prevent=""><p>張貼動態</p></a>
+        <router-link to="/create-post" class="postA">
+          <p>張貼動態</p>
+        </router-link>
+        <!-- <a class="postA" type="button" href="#" @click.prevent=""><p>張貼動態</p></a> -->
       </div>
       <a type="button" class="sidebarBtn" href="#" @click.prevent="">
         <div class="function">
@@ -77,7 +80,7 @@ a {
   text-decoration: none;
 }
 .sidebarBtn {
-    color: black;
+  color: black;
 }
 .function {
   margin-top: 2em;

@@ -8,17 +8,35 @@
       <div class="pos_2">
         <div class="createForm">
           <h4>貼文內容</h4>
-          <textarea></textarea>
-          <a type="button" class="uploadImg" href="#" @click.prevent="">
-            <div class="uploadImg-Btn"><h4>上傳圖片</h4></div></a
-          >
+          <textarea
+            placeholder="輸入你的貼文內容"
+            v-model="textContent"
+            @keyup.prevent="isSendOutBtnActive"
+          ></textarea>
+          <div class="imgUpload-Div">
+            <label for="fileUpload" class="imgUpload-A"
+              ><span class="me-2">上傳圖片</span>
+              <input
+                id="fileUpload"
+                type="file"
+                ref="files"
+                @change.prevent="uploadImage($event)"
+              />
+            </label>
+          </div>
+          <!-- <a type="button" class="uploadImg" href="#" @click.prevent="">
+            <div class="uploadImg-Btn"><h4>上傳圖片</h4></div>
+            </a> -->
           <div class="imgDisplay">
             <img :src="this.imgs[0]" />
           </div>
           <div class="sendOutDiv">
-          <a class="sendOutA" type="button" href="#" @click.prevent=""
-          ><div class="sendOutBtn">送出貼文</div></a
-        ></div>
+            <a class="sendOutA" type="button" href="#" @click.prevent=""
+              ><div class="sendOutBtn" :class="{ 'sendOutBtn-Active': sendOutBtnActive }">
+                送出貼文
+              </div></a
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -28,14 +46,30 @@
 export default {
   data() {
     return {
-      content: '外面看起來就超冷!\n我決定回被窩裡繼續睡',
+      textContent: '',
       imgs: [
         'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
       ],
+      sendOutBtnActive: false,
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    isSendOutBtnActive() {
+      if (!this.textContent || !this.imgs) {
+        this.sendOutBtnActive = false;
+      } else {
+        this.sendOutBtnActive = true;
+      }
+    },
+    uploadImage(e) {
+      const fileObject = e.target.files[0];
+      const url = URL.createObjectURL(fileObject);
+      console.log(url);
+      this.imgs = [];
+      this.imgs.push(url);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -98,14 +132,40 @@ export default {
 a {
   text-decoration: none;
 }
-.uploadImg-Btn {
-  width: 8em;
+// .uploadImg-Btn {
+//   width: 8em;
+//   background: black;
+//   color: white;
+//   vertical-align: middle;
+//   text-align: center;
+//   line-height: 2.2em;
+//   border-radius: 0.3em;
+// }
+.imgUpload-Div {
+  margin-top: 1.4em;
+  margin-bottom: 1.6em;
+}
+.imgUpload-Div label {
+  cursor: pointer;
+}
+.imgUpload-A {
   background: black;
   color: white;
-  vertical-align: middle;
-  text-align: center;
-  line-height: 2.2em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 2em;
+  padding-right: 2em;
   border-radius: 0.3em;
+}
+.imgUpload-A input {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
 }
 .imgDisplay {
   width: 100%;
@@ -120,9 +180,9 @@ img {
   border-radius: 8pt;
 }
 .sendOutDiv {
-    width: 50%;
-    margin-left:25%;
-    margin-top: 6%;
+  width: 60%;
+  margin-left: 20%;
+  margin-top: 6%;
 }
 .sendOutBtn {
   width: 100%;
@@ -133,5 +193,10 @@ img {
   line-height: 2.3em;
   background: #a8b0b9;
   color: black;
+  // box-shadow: -0.18em 0.18em 0em -0.005em black;
+}
+.sendOutBtn-Active {
+  background: #eec32a;
+  box-shadow: -0.18em 0.18em 0em -0.005em black;
 }
 </style>
