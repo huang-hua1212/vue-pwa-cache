@@ -1,5 +1,6 @@
 <template>
   <div class="background">
+    <!-- <nav class="nav"></nav> -->
     <div class="page1Content">
       <!-- <post class="posts"></post> -->
       <router-view class="postsShow"></router-view>
@@ -8,7 +9,6 @@
   </div>
 </template>
 <script>
-// import Post from '@/components/Posts.vue';
 import PersonalSidebar from '@/components/PersonalSidebar.vue';
 
 export default {
@@ -16,7 +16,6 @@ export default {
     return {};
   },
   components: {
-    // Post,
     PersonalSidebar,
   },
   created() {},
@@ -27,15 +26,14 @@ export default {
 .background {
   width: 100%;
   height: auto;
-//   padding-bottom: 20em;
+  //   padding-bottom: 20em;
   background: #efece7;
 }
 .page1Content {
   display: flex;
-  margin-top: 30pt;
+  padding-top: 2em;
   margin-left: 18.2%;
   width: 63.6%;
-//   border: black solid;
 }
 .postsShow {
   width: 60%;

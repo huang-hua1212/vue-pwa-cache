@@ -7,30 +7,30 @@
         </router-link>
         <!-- <a class="postA" type="button" href="#" @click.prevent=""><p>張貼動態</p></a> -->
       </div>
-      <a type="button" class="sidebarBtn" href="#" @click.prevent="">
+      <router-link to="/modify-personal-profile" class="sidebarBtn">
         <div class="function">
           <div class="postHeadImg"></div>
           <div class="posterName">
             <h3>名稱</h3>
           </div>
-        </div></a
+        </div></router-link
       >
-      <a type="button" class="sidebarBtn" href="#" @click.prevent="">
+      <router-link to="/followers-list" class="sidebarBtn">
         <div class="function">
           <div class="postHeadImg"></div>
           <div class="posterName">
             <h3>追蹤名單</h3>
           </div>
         </div>
-      </a>
-      <a type="button" class="sidebarBtn" href="#" @click.prevent="">
+      </router-link>
+      <router-link to="/likes-list" class="sidebarBtn">
         <div class="function">
           <div class="postHeadImg"></div>
           <div class="posterName">
             <h3>我按讚的文章</h3>
           </div>
         </div>
-      </a>
+      </router-link>
     </div>
   </div>
 </template>

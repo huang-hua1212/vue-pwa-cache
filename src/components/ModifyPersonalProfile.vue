@@ -15,31 +15,59 @@
                 <div class="content">
                   <div
                     class="headImg"
-                    style="
-                      background: url('https://images.unsplash.com/photo-1603384698993-e5865da085c8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1507&q=80');
-                      background-size: cover;
-                      background-position: center;
-                      overflow: hidden;
-                    "
+                    :style="{ 'background-image': 'url(' + this.imgs[0] + ')' }"
+                    style="background-size: cover; background-position: center; overflow: hidden"
                   ></div>
-                  <a type="button" class="uploadImg-A" href="#" @click.prevent=""
+                  <a
+                    type="button"
+                    class="uploadImg-A"
+                    href="#"
+                    @change.prevent="uploadImage($event)"
                     ><div class="uploadImg">上傳大頭照</div></a
                   >
                   <div class="nickName-Form">
                     <label class="nickName-Form-Label">暱稱</label><br />
-                    <input type="text" class="nickName-form-text" placeholder="輸入暱稱..." />
+                    <input
+                      type="text"
+                      class="nickName-form-text"
+                      @keyup.prevent="isSendOutBtnActive()"
+                      placeholder="輸入暱稱..."
+                      v-model="nickName"
+                    />
                   </div>
                   <div class="sexForm">
                     <label class="sexLabel">性別</label><br />
                     <div class="sexRadio">
-                      <input id="manRadio" type="radio" name="sexRadio" />
+                      <input
+                        id="manRadio"
+                        type="radio"
+                        name="sexRadio"
+                        value="男性"
+                        v-model="sex"
+                        :change="isSendOutBtnActive()"
+                      />
                       <label for="manRadio" class="sexRadioLabel">男性</label>
-                      <input id="womanRadio" class="womanRadioInput" type="radio" name="sexRadio" />
+                      <input
+                        id="womanRadio"
+                        class="womanRadioInput"
+                        type="radio"
+                        name="sexRadio"
+                        value="女性"
+                        v-model="sex"
+                        :change="isSendOutBtnActive()"
+                      />
                       <label for="womanRadio" class="sexRadioLabel">女性</label>
                     </div>
                   </div>
-                  <div class="sendBtn">
-                    <a type="button" class="send-A" href="#" @click.prevent="">送出更新</a>
+                  <div class="sendBtn" :class="{ 'sendBtn-Active': sendOutBtnActive }">
+                    <a
+                      type="button"
+                      :class="{ 'sendOutA-Disable': !sendOutBtnActive }"
+                      class="send-A"
+                      href="#"
+                      @click.prevent="updateUserInformation()"
+                      >送出更新</a
+                    >
                   </div>
                 </div>
               </div>
@@ -82,12 +110,72 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
-    return {};
+    return {
+      imgFile: {},
+      imgs: [
+        'https://images.unsplash.com/photo-1603384698993-e5865da085c8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1507&q=80',
+      ],
+      nickName: '',
+      sendOutBtnActive: false,
+      sex: '',
+    };
   },
-  created() {},
-  methods: {},
+  created() {
+    this.getUserInformation();
+  },
+  methods: {
+    isSendOutBtnActive() {
+      if (this.nickName && this.imgs.length > 0 && this.sex) {
+        this.sendOutBtnActive = true;
+      } else {
+        this.sendOutBtnActive = false;
+      }
+    },
+    getUserInformation() {
+      const id = '6277d49f5b11695971e06846';
+      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      // const data = {
+      //   // photo: this.,
+      // }
+      axios
+        .get(url)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    updateUserInformation() {
+      const id = '6277d49f5b11695971e06846';
+      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const data = {
+        name: this.nickName,
+        photo: this.imgs[0],
+        sex: this.sex,
+      };
+      axios
+        .patch(url, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    uploadImage(e) {
+      const fileObject = e.target.files[0];
+      this.imgFile = fileObject;
+      const url = URL.createObjectURL(fileObject);
+      this.imgs = [];
+      this.imgs.push(url);
+      this.isSendOutBtnActive();
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -185,8 +273,8 @@ ul {
   background: #fff;
   /* 設定層級最低方便選中狀態遮擋 */
   z-index: 0;
-//   shadow
- box-shadow: 0 0.2em 0em -0.005em black;
+  //   shadow
+  box-shadow: 0 0.2em 0em -0.005em black;
 }
 /* 用絕對定位使按鈕脫離文件流，透明度設定為0將其隱藏 */
 input[type='radio'] {
@@ -330,12 +418,27 @@ input[type='radio']:not(:checked) ~ .tab-box {
   border: black solid;
   border-radius: 0.5em;
   line-height: 2.5em;
+  background: #03438d;
+  box-shadow: -0.1em 0.1em 0em 0 black;
+}
+.sendBtn a {
+  color: white;
+}
+.sendBtn-Active {
+  margin-left: 20%;
+  width: 60%;
+  border: black solid;
+  border-radius: 0.5em;
+  line-height: 2.5em;
   background: #eec32a;
   box-shadow: -0.1em 0.1em 0em 0 black;
 }
 .send-A {
   color: black;
   // font-weight: bold;
+}
+.sendOutA-Disable {
+  pointer-events: none;
 }
 .passwordBtn {
   margin-top: 8%;
@@ -347,7 +450,7 @@ input[type='radio']:not(:checked) ~ .tab-box {
   line-height: 2.5em;
 }
 .passwordBtn a {
-    color: white;
-    font-family: sans;
+  color: white;
+  font-family: sans;
 }
 </style>

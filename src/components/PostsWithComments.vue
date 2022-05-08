@@ -1,6 +1,6 @@
 <template>
   <div class="container posts">
-    <div class="post">
+    <div  v-for="post in posts" :key="post" class="post">
       <div class="pos_1">
         <a type="button" class="" href="#" @click.prevent="">
           <div
@@ -11,15 +11,15 @@
           ></div
         ></a>
         <div class="posterName">
-          <h3>名稱</h3>
-          <h5>日期</h5>
+          <h3>{{ post.name }}</h3>
+          <h5>{{ post.createAt }}</h5>
         </div>
       </div>
       <div class="pos_2 content">
-        <h4>{{ this.content }}</h4>
+        <h4>{{ post.content }}</h4>
       </div>
       <div class="pos_3">
-        <img :src="this.imgs[0]" />
+        <img :src="post.image" />
       </div>
       <div class="pos_4">
         <!-- 按讚 -->
@@ -59,24 +59,47 @@
           </div>
         </div>
         <div class="postComment">
-            <h4>真的~我已經準備長眠了</h4>
+          <h4>真的~我已經準備長眠了</h4>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
+      posts: [],
       content: '外面看起來就超冷!\n我決定回被窩裡繼續睡',
       imgs: [
         'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
       ],
     };
   },
-  created() {},
-  methods: {},
+  created() {
+    this.getPosts();
+  },
+  methods: {
+    getPosts() {
+      const url = 'http://blooming-sands-85089.herokuapp.com/posts';
+      axios
+        .get(url)
+        .then((res) => {
+          res.data.datas.forEach((post) => {
+            const [first] = post.createAt.split('T');
+            // eslint-disable-next-line no-param-reassign
+            post.createAt = first;
+          });
+          // console.log(res.data.datas);
+          this.posts = res.data.datas;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -195,9 +218,9 @@ img {
   align-items: center;
 }
 .postComment {
-    padding-left: 4.8em;
+  padding-left: 4.8em;
 }
 .postComment > h4 {
-    margin-top: 1.3em;
+  margin-top: 1.3em;
 }
 </style>

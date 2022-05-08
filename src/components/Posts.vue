@@ -1,19 +1,19 @@
 <template>
   <div class="container posts">
     <!-- 每一篇Po文 -->
-    <div class="post">
+    <div v-for="post in posts" :key="post" class="post">
       <div class="pos_1">
         <div class="postHeadImg"></div>
         <div class="posterName">
-          <h3>名稱</h3>
-          <h5>日期</h5>
+          <h3>{{ post.user.name }}</h3>
+          <h5>{{ post.createAt }}</h5>
         </div>
       </div>
       <div class="pos_2 content">
-        <h4>{{ this.content }}</h4>
+        <h4>{{ post.content }}</h4>
       </div>
       <div class="pos_3">
-        <img :src="this.imgs[0]" />
+        <img :src="post.image" />
       </div>
     </div>
     <div class="post">
@@ -34,20 +34,45 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
+      posts: [],
       content: '外面看起來就超冷!\n我決定回被窩裡繼續睡',
       imgs: [
         'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
       ],
     };
   },
-  created() {},
-  methods: {},
+  created() {
+    this.getPosts();
+  },
+  methods: {
+    getPosts() {
+      const url = 'http://blooming-sands-85089.herokuapp.com/posts';
+      axios
+        .get(url)
+        .then((res) => {
+          console.log(res);
+          res.data.datas.forEach((post) => {
+            const [first] = post.createAt.split('T');
+            // eslint-disable-next-line no-param-reassign
+            post.createAt = first;
+          });
+          console.log(res.data.datas);
+          this.posts = res.data.datas;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Paytone+One&display=swap');
 .posts {
   // margin-left: 0.5em;
   margin-right: 0.5em;
@@ -85,6 +110,7 @@ export default {
 .posterName {
   padding-left: 1em;
   line-height: 0.6pt;
+  font-family: 'Paytone One', sans-serif;
 }
 .content {
   padding-left: 0.3em;
@@ -98,6 +124,7 @@ export default {
   height: auto;
   padding-bottom: 0;
   padding-left: 0.3em;
+  // padding-right: 0.3em;
 }
 img {
   width: 100%;
@@ -105,5 +132,6 @@ img {
   object-fit: cover;
   border: black solid;
   border-radius: 8pt;
+  // margin-right: 0.3em;
 }
 </style>

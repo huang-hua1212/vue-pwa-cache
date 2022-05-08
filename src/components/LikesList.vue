@@ -51,8 +51,9 @@ export default {
 <style lang="scss" scoped>
 .Likes-List {
   margin-left: 0em;
-  padding-right: 2%;
-  padding-bottom: 0;
+  // padding-right: 2%;
+  height: 32.9em;
+  padding-bottom: 8em;
 }
 .Likes {
   margin: 0;
