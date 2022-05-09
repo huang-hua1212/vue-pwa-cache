@@ -18,7 +18,8 @@
     "core-js": "^3.6.5",
     "vue": "^3.0.0",
     "vue-loading-overlay": "^5.0.3",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0-0",
+    "vue-unicons": "^3.3.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.15",

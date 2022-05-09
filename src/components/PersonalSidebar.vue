@@ -9,15 +9,21 @@
       </div>
       <router-link to="/modify-personal-profile" class="sidebarBtn">
         <div class="function">
-          <div class="postHeadImg"></div>
+          <div
+            class="postHeadImg"
+            :style="{ 'background-image': 'url(' + this.headImg + ')' }"
+            style="background-size: cover; background-position: center; overflow: hidden"
+          ></div>
           <div class="posterName">
-            <h3>名稱</h3>
+            <h3>{{ this.name }}</h3>
           </div>
         </div></router-link
       >
       <router-link to="/followers-list" class="sidebarBtn">
         <div class="function">
-          <div class="postHeadImg"></div>
+          <div class="circleBorder">
+            <unicon class="bellIcon" name="bell" fill="royalblue"></unicon>
+          </div>
           <div class="posterName">
             <h3>追蹤名單</h3>
           </div>
@@ -25,7 +31,9 @@
       </router-link>
       <router-link to="/likes-list" class="sidebarBtn">
         <div class="function">
-          <div class="postHeadImg"></div>
+          <div class="circleBorder">
+            <unicon class="thumbs-up" name="thumbs-up" fill="royalblue"></unicon>
+          </div>
           <div class="posterName">
             <h3>我按讚的文章</h3>
           </div>
@@ -35,17 +43,35 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      content: '外面看起來就超冷!\n我決定回被窩裡繼續睡',
-      imgs: [
-        'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
-      ],
+      headImg: '',
+      name: '',
     };
   },
-  created() {},
-  methods: {},
+  mounted() {
+    this.getUserInformation();
+  },
+  methods: {
+    getUserInformation() {
+      const id = '6277d49f5b11695971e06846';
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+
+      axios
+        .get(url)
+        .then((res) => {
+          const userProfile = res.data.datas;
+          this.headImg = userProfile.photo;
+          this.name = userProfile.name;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+  },
 };
 </script>
 <style lan="scss" scped>
@@ -89,16 +115,42 @@ a {
   align-items: center;
 }
 .postHeadImg {
-  position: relative;
+  /* position: relative; */
   border-radius: 50%;
   width: 4em;
-  height: 0;
+  height: 0em;
   padding-top: 4em;
   background: white;
   border: black solid;
 }
+.circleBorder {
+  /* position: relative; */
+  border-radius: 50%;
+  width: 4em;
+  height: 4em;
+  /* padding-top: 4em; */
+  background: white;
+  border: black solid;
+  /* foricon */
+  vertical-align: middle;
+  text-align: center;
+}
+.circleBorder {
+  background: #e2edfa;
+}
 .posterName {
   padding-left: 1em;
   line-height: 0.6pt;
+}
+/* Icon */
+.bellIcon {
+  width: 2.2em;
+  height: 3em;
+  margin-top: 0.4em;
+}
+.thumbs-up {
+  width: 1.8em;
+  height: 2.5em;
+  margin-top: 0.6em;
 }
 </style>
