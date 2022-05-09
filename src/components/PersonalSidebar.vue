@@ -19,17 +19,17 @@
           </div>
         </div></router-link
       >
-      <router-link to="/followers-list" class="sidebarBtn">
+      <router-link to="/followers-list" class="sidebarBtn-2">
         <div class="function">
           <div class="circleBorder">
-            <unicon class="bellIcon" name="bell" fill="royalblue"></unicon>
+            <unicon class="bellIcon" name="bell"  fill="royalblue"></unicon>
           </div>
           <div class="posterName">
             <h3>追蹤名單</h3>
           </div>
         </div>
       </router-link>
-      <router-link to="/likes-list" class="sidebarBtn">
+      <router-link to="/likes-list" class="sidebarBtn-3">
         <div class="function">
           <div class="circleBorder">
             <unicon class="thumbs-up" name="thumbs-up" fill="royalblue"></unicon>
@@ -50,6 +50,8 @@ export default {
     return {
       headImg: '',
       name: '',
+      // color_1: 'royalblue',
+      // color_2: 'royalblue',
     };
   },
   mounted() {
@@ -105,7 +107,9 @@ export default {
 a {
   text-decoration: none;
 }
-.sidebarBtn {
+.sidebarBtn,
+.sidebarBtn-2,
+.sidebarBtn-3 {
   color: black;
 }
 .function {
@@ -152,5 +156,25 @@ a {
   width: 1.8em;
   height: 2.5em;
   margin-top: 0.6em;
+}
+.sidebarBtn-2:hover .circleBorder {
+  background-color: #03438d;
+}
+.sidebarBtn-2:hover .bellIcon {
+  fill: white;
+}
+.sidebarBtn-2:hover h3 {
+  color: #03438d;
+  font-weight: bold;
+}
+.sidebarBtn-3:hover .circleBorder {
+  background-color: #03438d;
+}
+.sidebarBtn-3:hover h3 {
+  color: #03438d;
+  font-weight: bold;
+}
+.sidebarBtn-3:hover .thumbs-up {
+  fill: white;
 }
 </style>
