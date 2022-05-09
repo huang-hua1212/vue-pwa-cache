@@ -1,6 +1,6 @@
 <template>
   <div class="container posts">
-    <div  v-for="post in posts" :key="post" class="post">
+    <div v-for="post in posts" :key="post" class="post">
       <div class="pos_1">
         <a type="button" class="" href="#" @click.prevent="">
           <div
@@ -11,7 +11,7 @@
           ></div
         ></a>
         <div class="posterName">
-          <h3>{{ post.name }}</h3>
+          <h3>{{ post.user.name }}</h3>
           <h5>{{ post.createAt }}</h5>
         </div>
       </div>

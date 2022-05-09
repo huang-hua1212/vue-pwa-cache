@@ -55,13 +55,11 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          console.log(res);
           res.data.datas.forEach((post) => {
             const [first] = post.createAt.split('T');
             // eslint-disable-next-line no-param-reassign
             post.createAt = first;
           });
-          console.log(res.data.datas);
           this.posts = res.data.datas;
         })
         .catch((err) => {

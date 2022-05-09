@@ -3,7 +3,17 @@
     <div class="navBar-Div">
       <router-link to="/posts"><h1>MetaWall</h1></router-link>
       <div class="navRight">
-        <div class="headImg" style="width: 2.5em; padding-top: 2.5em"></div>
+        <div
+          class="headImg"
+          :style="{ 'background-image': 'url(' + this.headImg + ')' }"
+          style="
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            width: 2.5em;
+            padding-top: 2.5em;
+          "
+        ></div>
         <a
           class="navRight-Name-A"
           type="button"
@@ -65,14 +75,38 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
+      headImg: '',
       isDropDown: false,
     };
   },
-  created() {},
-  methods: {},
+  created() {
+    this.getUserInformation();
+  },
+  methods: {
+    getUserInformation() {
+      const id = '6277d49f5b11695971e06846';
+      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+
+      axios
+        .get(url)
+        .then((res) => {
+          const userProfile = res.data.datas;
+          this.headImg = userProfile.photo;
+          // this.imgs = [];
+          // this.imgs.push(userProfile.photo);
+          // this.nickName = userProfile.name;
+          // this.sex = userProfile.sex;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

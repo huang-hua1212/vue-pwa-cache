@@ -97,7 +97,7 @@ export default {
     postNewPo() {
       this.isLoading = true;
       const data = new FormData();
-      data.append('user', '627786d93b0a7f92ce6d35b4');
+      data.append('user', '6277d49f5b11695971e06846');
       data.append('tags', '分享');
       data.append('type', 'person');
       data.append('image', this.imgFile);
@@ -108,9 +108,8 @@ export default {
       // http://blooming-sands-85089.herokuapp.com/posts
       // http://localhost:3000/posts
       axios
-        .post('http://blooming-sands-85089.herokuapp.com/posts', data)
-        .then((res) => {
-          console.log(res);
+        .post('http://blooming-sands-85089.herokuapp.com/posts-with-FormDataImage', data)
+        .then(() => {
           this.isLoading = false;
           this.$router.push('/posts');
         })

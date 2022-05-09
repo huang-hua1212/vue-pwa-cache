@@ -18,19 +18,30 @@
                     :style="{ 'background-image': 'url(' + this.imgs[0] + ')' }"
                     style="background-size: cover; background-position: center; overflow: hidden"
                   ></div>
-                  <a
+                  <div class="imgUpload-Div">
+                    <label for="fileUpload" class="imgUpload-A"
+                      ><span class="me-2">上傳圖片</span>
+                      <input
+                        id="fileUpload"
+                        type="file"
+                        ref="files"
+                        @change.prevent="uploadImage($event)"
+                      />
+                    </label>
+                  </div>
+                  <!-- <a
                     type="button"
                     class="uploadImg-A"
                     href="#"
                     @change.prevent="uploadImage($event)"
                     ><div class="uploadImg">上傳大頭照</div></a
-                  >
+                  > -->
                   <div class="nickName-Form">
                     <label class="nickName-Form-Label">暱稱</label><br />
                     <input
                       type="text"
                       class="nickName-form-text"
-                      @keyup.prevent="isSendOutBtnActive()"
+                      @keyup.prevent="firstTabIsSendOutBtnActive()"
                       placeholder="輸入暱稱..."
                       v-model="nickName"
                     />
@@ -44,7 +55,7 @@
                         name="sexRadio"
                         value="男性"
                         v-model="sex"
-                        :change="isSendOutBtnActive()"
+                        :change="firstTabIsSendOutBtnActive()"
                       />
                       <label for="manRadio" class="sexRadioLabel">男性</label>
                       <input
@@ -54,21 +65,24 @@
                         name="sexRadio"
                         value="女性"
                         v-model="sex"
-                        :change="isSendOutBtnActive()"
+                        :change="firstTabIsSendOutBtnActive()"
                       />
                       <label for="womanRadio" class="sexRadioLabel">女性</label>
                     </div>
                   </div>
-                  <div class="sendBtn" :class="{ 'sendBtn-Active': sendOutBtnActive }">
-                    <a
-                      type="button"
-                      :class="{ 'sendOutA-Disable': !sendOutBtnActive }"
-                      class="send-A"
-                      href="#"
-                      @click.prevent="updateUserInformation()"
-                      >送出更新</a
+                  <a
+                    type="button"
+                    :class="{ 'sendOutA-Disable': !isFirstTab_SendOutBtnActive }"
+                    class="send-A"
+                    href="#"
+                    @click.prevent="firstTabUpdateUserInformation()"
+                    ><div
+                      class="sendBtn"
+                      :class="{ 'sendBtn-Active': isFirstTab_SendOutBtnActive }"
                     >
-                  </div>
+                      送出更新
+                    </div>
+                  </a>
                 </div>
               </div>
             </li>
@@ -80,26 +94,38 @@
                   <div class="password1-Form">
                     <label class="password1-Form-Label" for="password1">輸入新密碼</label><br />
                     <input
-                      type="text"
+                      type="password"
                       id="password1"
+                      v-model="firstPassword"
                       class="password1-form-text"
                       placeholder="輸入新密碼..."
+                      @keyup.prevent="secondTabIsSendOutBtnActive()"
                     />
                   </div>
                   <div class="password2-Form">
                     <label class="password2-Form-Label" for="password2">再次輸入密碼</label><br />
                     <input
-                      type="text"
+                      type="password"
                       id="password2"
+                      v-model="secondPassword"
                       class="password2-form-text"
                       placeholder="再次輸入密碼..."
+                      @keyup.prevent="secondTabIsSendOutBtnActive()"
                     />
                   </div>
-                  <div class="passwordBtn">
-                    <a type="button" class="uploadImg-A" href="#" @click.prevent=""
-                      ><div>重設密碼</div></a
+                  <a
+                    type="button"
+                    class="secondTab-SendOutBtn"
+                    :class="{ 'sendOutA-Disable': !isSecondTab_SendOutBtnActive }"
+                    href="#"
+                    @click.prevent="secondTabUpdateUserInformation()"
+                    ><div
+                      class="passwordBtn"
+                      :class="{ 'secondTab-SendOutBtn-Active': isSecondTab_SendOutBtnActive }"
                     >
-                  </div>
+                      重設密碼
+                    </div></a
+                  >
                 </div>
               </div>
             </li>
@@ -117,42 +143,54 @@ export default {
     return {
       imgFile: {},
       imgs: [
-        'https://images.unsplash.com/photo-1603384698993-e5865da085c8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1507&q=80',
+        'https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
+        // 'https://images.unsplash.com/photo-1603384698993-e5865da085c8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1507&q=80',
       ],
       nickName: '',
-      sendOutBtnActive: false,
+      isFirstTab_SendOutBtnActive: false,
       sex: '',
+      // password
+      isSecondTab_SendOutBtnActive: false,
+      firstPassword: '',
+      secondPassword: '',
     };
   },
   created() {
     this.getUserInformation();
   },
   methods: {
-    isSendOutBtnActive() {
-      if (this.nickName && this.imgs.length > 0 && this.sex) {
-        this.sendOutBtnActive = true;
-      } else {
-        this.sendOutBtnActive = false;
-      }
-    },
     getUserInformation() {
       const id = '6277d49f5b11695971e06846';
       const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
-      // const data = {
-      //   // photo: this.,
-      // }
+
       axios
         .get(url)
         .then((res) => {
-          console.log(res);
+          const userProfile = res.data.datas;
+          this.imgs = [];
+          this.imgs.push(userProfile.photo);
+          this.nickName = userProfile.name;
+          this.sex = userProfile.sex;
         })
         .catch((err) => {
-          console.log(err);
+          console.dir(err);
         });
     },
-    updateUserInformation() {
+    // 第一個Tab
+    firstTabIsSendOutBtnActive() {
+      if (this.nickName && this.imgs.length > 0 && this.sex) {
+        this.isFirstTab_SendOutBtnActive = true;
+      } else {
+        this.isFirstTab_SendOutBtnActive = false;
+      }
+    },
+    firstTabUpdateUserInformation_ByUrlImage() {
       const id = '6277d49f5b11695971e06846';
       const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      // const data = new FormData();
+      // data.append('name', this.nickName);
+      // data.append('photo', this.imgs[0]);
+      // data.append('sex', this.sex);
       const data = {
         name: this.nickName,
         photo: this.imgs[0],
@@ -160,8 +198,25 @@ export default {
       };
       axios
         .patch(url, data)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          this.$router.push('/posts-with-comments');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    firstTabUpdateUserInformation_ByFormDataImage() {
+      const id = '6277d49f5b11695971e06846';
+      const url = `http://blooming-sands-85089.herokuapp.com/user-with-FormDataImage/${id}`;
+      const data = new FormData();
+      data.append('name', this.nickName);
+      data.append('photo', this.imgFile);
+      data.append('sex', this.sex);
+
+      axios
+        .patch(url, data)
+        .then(() => {
+          this.$router.push('/posts-with-comments');
         })
         .catch((err) => {
           console.log(err);
@@ -169,11 +224,44 @@ export default {
     },
     uploadImage(e) {
       const fileObject = e.target.files[0];
-      this.imgFile = fileObject;
       const url = URL.createObjectURL(fileObject);
+      this.imgFile = fileObject;
       this.imgs = [];
       this.imgs.push(url);
-      this.isSendOutBtnActive();
+      this.firstTabIsSendOutBtnActive();
+    },
+    firstTabUpdateUserInformation() {
+      if (this.imgFile.name === undefined) {
+        // console.log('url');
+        this.firstTabUpdateUserInformation_ByUrlImage();
+      } else {
+        // console.log('formdata');
+        this.firstTabUpdateUserInformation_ByFormDataImage();
+      }
+    },
+    // 第二個Tab
+    secondTabIsSendOutBtnActive() {
+      if (this.firstPassword === this.secondPassword) {
+        this.isSecondTab_SendOutBtnActive = true;
+      } else {
+        this.isSecondTab_SendOutBtnActive = false;
+      }
+    },
+    secondTabUpdateUserInformation() {
+      const id = '6277d49f5b11695971e06846';
+      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const data = {
+        password: this.secondPassword,
+      };
+
+      axios
+        .patch(url, data)
+        .then(() => {
+          this.$router.push('/posts-with-comments');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -319,13 +407,31 @@ input[type='radio']:not(:checked) ~ .tab-box {
   border: black solid;
   margin: auto;
 }
-.uploadImg {
-  margin-left: 32.5%;
-  margin-top: 2em;
-  width: 35%;
-  line-height: 2.5em;
+.imgUpload-Div {
+  margin-top: 1.4em;
+  margin-bottom: 1.6em;
+}
+.imgUpload-Div label {
+  cursor: pointer;
+}
+.imgUpload-A {
   background: black;
   color: white;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  // border-radius: 0.3em;
+}
+.imgUpload-A input {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
 }
 .nickName-Form,
 .password1-Form,
@@ -421,13 +527,13 @@ input[type='radio']:not(:checked) ~ .tab-box {
   background: #03438d;
   box-shadow: -0.1em 0.1em 0em 0 black;
 }
-.sendBtn a {
+a.sendOutA-Disable {
   color: white;
 }
 .sendBtn-Active {
   margin-left: 20%;
   width: 60%;
-  border: black solid;
+  // border: black solid;
   border-radius: 0.5em;
   line-height: 2.5em;
   background: #eec32a;
@@ -440,6 +546,7 @@ input[type='radio']:not(:checked) ~ .tab-box {
 .sendOutA-Disable {
   pointer-events: none;
 }
+// SECOND TAB
 .passwordBtn {
   margin-top: 8%;
   margin-left: 20%;
@@ -449,8 +556,18 @@ input[type='radio']:not(:checked) ~ .tab-box {
   background: #a8b0b9;
   line-height: 2.5em;
 }
-.passwordBtn a {
+a .passwordBtn {
   color: white;
   font-family: sans;
+}
+.secondTab-SendOutBtn-Active {
+  margin-top: 8%;
+  margin-left: 20%;
+  width: 60%;
+  border: black solid;
+  border-radius: 0.5em;
+  background: #eec32a;
+  box-shadow: -0.1em 0.1em 0em 0 black;
+  line-height: 2.5em;
 }
 </style>
