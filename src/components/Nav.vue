@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <div class="navBar-Div">
-      <router-link to="/posts"><h1>MetaWall</h1></router-link>
+      <router-link to="/posts-with-comments"><h1>MetaWall</h1></router-link>
       <div class="navRight">
         <div
           class="headImg"
@@ -90,7 +90,7 @@ export default {
   methods: {
     getUserInformation() {
       const id = '6277d49f5b11695971e06846';
-      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
 
       axios
         .get(url)

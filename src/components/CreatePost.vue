@@ -108,7 +108,7 @@ export default {
       // http://blooming-sands-85089.herokuapp.com/posts
       // http://localhost:3000/posts
       axios
-        .post('http://blooming-sands-85089.herokuapp.com/posts-with-FormDataImage', data)
+        .post('https://blooming-sands-85089.herokuapp.com/posts-with-FormDataImage', data)
         .then(() => {
           this.isLoading = false;
           this.$router.push('/posts');

@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     getPosts() {
-      const url = 'http://blooming-sands-85089.herokuapp.com/posts';
+      const url = 'https://blooming-sands-85089.herokuapp.com/posts';
       axios
         .get(url)
         .then((res) => {
@@ -118,7 +118,7 @@ export default {
   padding-left: 3%;
   padding-right: 3.8%;
   padding-top: 1.6em;
-  padding-bottom: 3em;
+  padding-bottom: 2em;
   background: white;
   border-radius: 1em;
 }

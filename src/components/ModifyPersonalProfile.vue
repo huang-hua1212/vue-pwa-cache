@@ -161,7 +161,7 @@ export default {
   methods: {
     getUserInformation() {
       const id = '6277d49f5b11695971e06846';
-      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
 
       axios
         .get(url)
@@ -186,7 +186,7 @@ export default {
     },
     firstTabUpdateUserInformation_ByUrlImage() {
       const id = '6277d49f5b11695971e06846';
-      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
       // const data = new FormData();
       // data.append('name', this.nickName);
       // data.append('photo', this.imgs[0]);
@@ -207,7 +207,7 @@ export default {
     },
     firstTabUpdateUserInformation_ByFormDataImage() {
       const id = '6277d49f5b11695971e06846';
-      const url = `http://blooming-sands-85089.herokuapp.com/user-with-FormDataImage/${id}`;
+      const url = `https://blooming-sands-85089.herokuapp.com/user-with-FormDataImage/${id}`;
       const data = new FormData();
       data.append('name', this.nickName);
       data.append('photo', this.imgFile);
@@ -249,7 +249,7 @@ export default {
     },
     secondTabUpdateUserInformation() {
       const id = '6277d49f5b11695971e06846';
-      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
       const data = {
         password: this.secondPassword,
       };
