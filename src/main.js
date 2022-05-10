@@ -7,13 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 // temp Unicon
 import Unicon from 'vue-unicons';
-import { uniBell, uniThumbsUp } from 'vue-unicons/dist/icons';
+import { uniBell, uniThumbsUp, uniSearch } from 'vue-unicons/dist/icons';
 
 import App from './App.vue';
 import router from './router';
 
 // temp Unicon
-Unicon.add([uniBell, uniThumbsUp]);
+Unicon.add([uniBell, uniThumbsUp, uniSearch]);
 // temp fontawesom
 library.add(fas);
 

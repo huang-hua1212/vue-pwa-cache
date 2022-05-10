@@ -3,8 +3,8 @@
     <!-- <nav class="nav"></nav> -->
     <div class="page1Content">
       <!-- <post class="posts"></post> -->
-      <router-view class="postsShow"></router-view>
-      <personal-sidebar class="personal-sidebar"></personal-sidebar>
+      <router-view class="postsShow" @changeUserProfile="changeUserProfile"></router-view>
+      <personal-sidebar class="personal-sidebar" ref="personalSidebar"></personal-sidebar>
     </div>
   </div>
 </template>
@@ -19,7 +19,11 @@ export default {
     PersonalSidebar,
   },
   created() {},
-  methods: {},
+  methods: {
+    changeUserProfile() {
+      this.$refs.personalSidebar.getUserInformation();
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -38,7 +42,7 @@ export default {
 .postsShow {
   width: 60%;
   margin-top: 20pt;
-  margin-right: 1em;
+//   margin-right: 1em;
 }
 .personal-sidebar {
   width: 38%;

@@ -1,72 +1,93 @@
 <template>
   <div class="container posts">
-    <div v-for="post in posts" :key="post" class="post">
-      <div class="pos_1">
-        <a type="button" class="" href="#" @click.prevent="">
-          <div
-            class="postHeadImg"
-            style="
-              background: url('https://images.unsplash.com/profile-1565658044215-2269917ff124?dpr=2&auto=format&fit=crop&w=32&h=32&q=60&crop=faces&bg=fff');
-            "
-          ></div
-        ></a>
-        <div class="posterName">
-          <h3>{{ post.user.name }}</h3>
-          <h5>{{ post.createAt }}</h5>
+    <div class="post-Div">
+      <div class="search-Div">
+        <div class="search-DropDown">
+          <select class="search-Select" v-model="sortBy" @change.prevent="sort()">
+            <option value="newest">最新貼文</option>
+            <option value="oldest">最舊貼文</option>
+          </select>
+        </div>
+        <div class="search-Text">
+          <input
+            type="text"
+            v-model="searchText"
+            class="search-Text-Input"
+            placeholder="搜尋貼文"
+          />
+          <a type="button" class="search-Btn" href="#" @click.prevent="searchByText()">
+            <div class="search-Unicon"><unicon name="search" fill="white"></unicon></div
+          ></a>
         </div>
       </div>
-      <div class="pos_2 content">
-        <h4>{{ post.content }}</h4>
-      </div>
-      <div class="pos_3">
-        <img :src="post.image" />
-      </div>
-      <div class="pos_4">
-        <!-- 按讚 -->
-        <a type="button" class="thumbs-up-A" href="#" @click.prevent="">
-          <font-awesome-icon icon="thumbs-up" size="1.5x" :style="{ color: '#969799' }" />
-        </a>
-      </div>
-      <div class="pos_5">
-        <div class="pos_1">
-          <div class="postHeadImg" style="width: 3.5em; padding-top: 3.5em"></div>
-        </div>
-        <div class="comment-form">
-          <input type="text" class="comment-form-text" placeholder="輸入留言..." />
-          <a type="button" class="comment-form-A" href="#" @click.prevent="">
-            <div class="comment-form-btn">
-              <h4>留言</h4>
-            </div>
-          </a>
-        </div>
-      </div>
-      <!-- 各篇留言 -->
-      <div class="pos_6">
+      <div v-for="post in posts" :key="post" class="post">
         <div class="pos_1">
           <a type="button" class="" href="#" @click.prevent="">
             <div
               class="postHeadImg"
               style="
                 background: url('https://images.unsplash.com/profile-1565658044215-2269917ff124?dpr=2&auto=format&fit=crop&w=32&h=32&q=60&crop=faces&bg=fff');
-                width: 3.5em;
-                padding-top: 3.5em;
               "
-            ></div>
-          </a>
+            ></div
+          ></a>
           <div class="posterName">
-            <h3>名稱</h3>
-            <h5>2022/05/01</h5>
+            <h3>{{ post.user.name }}</h3>
+            <h5>{{ post.createAt }}</h5>
           </div>
         </div>
-        <div class="postComment">
-          <h4>真的~我已經準備長眠了</h4>
+        <div class="pos_2 content">
+          <h4>{{ post.content }}</h4>
+        </div>
+        <div class="pos_3">
+          <img :src="post.image" />
+        </div>
+        <div class="pos_4">
+          <!-- 按讚 -->
+          <a type="button" class="thumbs-up-A" href="#" @click.prevent="">
+            <font-awesome-icon icon="thumbs-up" size="1.5x" :style="{ color: '#969799' }" />
+          </a>
+        </div>
+        <div class="pos_5">
+          <div class="pos_1">
+            <div class="postHeadImg" style="width: 3.5em; padding-top: 3.5em"></div>
+          </div>
+          <div class="comment-form">
+            <input type="text" class="comment-form-text" placeholder="輸入留言..." />
+            <a type="button" class="comment-form-A" href="#" @click.prevent="">
+              <div class="comment-form-btn">
+                <h4>留言</h4>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- 各篇留言 -->
+        <div class="pos_6">
+          <div class="pos_1">
+            <a type="button" class="" href="#" @click.prevent="">
+              <div
+                class="postHeadImg"
+                style="
+                  background: url('https://images.unsplash.com/profile-1565658044215-2269917ff124?dpr=2&auto=format&fit=crop&w=32&h=32&q=60&crop=faces&bg=fff');
+                  width: 3.5em;
+                  padding-top: 3.5em;
+                "
+              ></div>
+            </a>
+            <div class="posterName">
+              <h3>名稱</h3>
+              <h5>2022/05/01</h5>
+            </div>
+          </div>
+          <div class="postComment">
+            <h4>真的~我已經準備長眠了</h4>
+          </div>
         </div>
       </div>
-    </div>
-    <!--  PROGRESS BAR 1 --- Loading PAGE -->
-    <div v-show="isLoading" class="loadingBackground"></div>
-    <div v-show="isLoading" class="loading">
-      <div class="lds-circle"><div></div></div>
+      <!--  PROGRESS BAR 1 --- Loading PAGE -->
+      <div v-show="isLoading" class="loadingBackground"></div>
+      <div v-show="isLoading" class="loading">
+        <div class="lds-circle"><div></div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +103,8 @@ export default {
         'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
       ],
       isLoading: false,
+      searchText: '',
+      sortBy: 'newest',
     };
   },
   created() {
@@ -94,19 +117,48 @@ export default {
       axios
         .get(url)
         .then((res) => {
+          this.data = res.data.datas;
           res.data.datas.forEach((post) => {
+            // eslint-disable-next-line no-param-reassign
+            post.createAt_Original = post.createAt;
             const [first] = post.createAt.split('T');
             // eslint-disable-next-line no-param-reassign
             post.createAt = first;
           });
-          // console.log(res.data.datas);
           this.posts = res.data.datas;
+          this.sort();
           setTimeout(() => {
             this.isLoading = false;
           }, 1500);
         })
         .catch((err) => {
           console.dir(err);
+        });
+    },
+    sort() {
+      // console.log(typeof this.sortBy);
+      // console.log(new Date(this.posts[0].createAt));
+      // console.log(new Date(this.posts[0].createAt) > new Date(this.posts[1].createAt));
+      if (this.sortBy === 'newest') {
+        this.posts.sort((a, b) => new Date(b.createAt_Original) - new Date(a.createAt_Original));
+      } else if (this.sortBy === 'oldest') {
+        this.posts.sort((a, b) => new Date(a.createAt_Original) - new Date(b.createAt_Original));
+      }
+      console.log(this.posts);
+    },
+    searchByText() {
+      const data = {
+        content: this.searchText,
+      };
+      const url = 'https://blooming-sands-85089.herokuapp.com/posts-by-content';
+      // const url = 'http://localhost:3000/posts-by-content';
+      axios
+        .post(url, data)
+        .then((res) => {
+          this.posts = res.data.datas;
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },
@@ -167,11 +219,62 @@ export default {
 }
 // progress bar end
 .posts {
-  // margin-left: 0.5em;
-  margin-right: 0.5em;
-  // padding-left: 2%;
-  padding-right: 2%;
+  margin-left: 0em;
+  width: 60%;
 }
+// search start
+.search-Div {
+  display: flex;
+  height: 2.5em;
+  margin-bottom: 2em;
+}
+.search-DropDown {
+  width: 35%;
+  height: 100%;
+}
+.search-Select {
+  width: 100%;
+  height: 100%;
+  font-size: 1em;
+  // line-height: 1em;
+  // padding-top: 0.3em;
+  // padding-bottom: 0.3em;
+  padding-left: 0.5em;
+  border: black solid;
+}
+.search-Text {
+  display: flex;
+  margin-left: 2em;
+  height: 88%;
+  width: 100%;
+}
+.search-Text-Input {
+  padding-left: 0.5em;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  padding-left: 0.5em;
+  border: black solid;
+  font-size: 1em;
+}
+.search-Btn {
+  width: 10%;
+  height: 100%;
+  margin: 0;
+  // margin: -0.02em;
+  vertical-align: middle;
+  text-align: center;
+  background: #03438d;
+  border-top: black solid;
+  border-right: black solid;
+  border-bottom: black solid;
+  // border-left: black solid;
+}
+.search-Unicon {
+  // margin-left: 0.5em;
+  margin-top: 0.3em;
+}
+// search end
 .post {
   margin: 0;
   margin-bottom: 1.5em;
@@ -179,7 +282,7 @@ export default {
   vertical-align: middle;
   border: black solid;
   padding-left: 3%;
-  padding-right: 3.8%;
+  // padding-right: 3.8%;
   padding-top: 1.6em;
   padding-bottom: 2em;
   background: white;
@@ -212,7 +315,7 @@ export default {
   line-height: 2em;
 }
 .pos_3 {
-  width: 98.2%;
+  width: 94%;
   height: auto;
   padding-bottom: 0;
   padding-left: 0.3em;
@@ -241,11 +344,13 @@ img {
   margin-top: 1em;
   vertical-align: middle;
   align-items: center;
+  width: 93.5%;
 }
 .comment-form {
   display: flex;
   margin-left: 1em;
-  width: 35.5em;
+  // width: 35.5em;
+  width: 100%;
   height: 2.25em;
 }
 .comment-form-text {

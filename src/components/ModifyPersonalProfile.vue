@@ -222,6 +222,7 @@ export default {
       axios
         .patch(url, data)
         .then(() => {
+          this.$emit('changeUserProfile', true);
           this.$router.push('/posts-with-comments');
           this.isLoading = false;
         })

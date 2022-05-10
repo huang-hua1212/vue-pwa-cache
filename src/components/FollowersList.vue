@@ -46,9 +46,8 @@ export default {
 <style lang="scss" scoped>
 .followers-List {
   margin-left: 0em;
-  // height: 35.8em;
-  height: 38em;
-  // padding-right: 2%;
+  // height: 38em;
+  height: 50em;
   padding-bottom: 0;
 }
 .followers {
