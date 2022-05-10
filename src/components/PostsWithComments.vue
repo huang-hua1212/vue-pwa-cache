@@ -63,6 +63,11 @@
         </div>
       </div>
     </div>
+    <!--  PROGRESS BAR 1 --- Loading PAGE -->
+    <div v-show="isLoading" class="loadingBackground"></div>
+    <div v-show="isLoading" class="loading">
+      <div class="lds-circle"><div></div></div>
+    </div>
   </div>
 </template>
 <script>
@@ -76,6 +81,7 @@ export default {
       imgs: [
         'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
       ],
+      isLoading: false,
     };
   },
   created() {
@@ -83,6 +89,7 @@ export default {
   },
   methods: {
     getPosts() {
+      this.isLoading = true;
       const url = 'https://blooming-sands-85089.herokuapp.com/posts';
       axios
         .get(url)
@@ -94,6 +101,9 @@ export default {
           });
           // console.log(res.data.datas);
           this.posts = res.data.datas;
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 1500);
         })
         .catch((err) => {
           console.dir(err);
@@ -103,6 +113,59 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+// progress bar start
+.loadingBackground {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  background: gray;
+  opacity: 0.5;
+}
+.loading {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  top: 50%;
+  margin-left: -50px; /* 100px/2 = 50px */
+  margin-top: -50px; /* ditto */
+  z-index: 201;
+}
+.lds-circle {
+  display: inline-block;
+  transform: translateZ(1px);
+}
+.lds-circle > div {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  background: #fff;
+  animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+@keyframes lds-circle {
+  0%,
+  100% {
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(1800deg);
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+  }
+  100% {
+    transform: rotateY(3600deg);
+  }
+}
+// progress bar end
 .posts {
   // margin-left: 0.5em;
   margin-right: 0.5em;
