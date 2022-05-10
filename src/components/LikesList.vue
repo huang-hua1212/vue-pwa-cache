@@ -53,6 +53,7 @@ export default {
   margin-left: 0em;
   // padding-right: 2%;
   height: 32.9em;
+  // height: 36em;
   padding-bottom: 8em;
 }
 .Likes {

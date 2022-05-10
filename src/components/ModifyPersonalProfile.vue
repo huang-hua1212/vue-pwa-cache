@@ -133,6 +133,24 @@
         </div>
       </div>
     </div>
+    <!-- ProgressBar Loading -->
+    <div v-show="isLoading" class="loadingBackground"></div>
+    <div v-show="isLoading" class="loading">
+      <div class="lds-spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -153,6 +171,7 @@ export default {
       isSecondTab_SendOutBtnActive: false,
       firstPassword: '',
       secondPassword: '',
+      isLoading: false,
     };
   },
   created() {
@@ -185,6 +204,7 @@ export default {
       }
     },
     firstTabUpdateUserInformation_ByUrlImage() {
+      this.isLoading = true;
       const id = '6277d49f5b11695971e06846';
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
       // const data = new FormData();
@@ -200,12 +220,14 @@ export default {
         .patch(url, data)
         .then(() => {
           this.$router.push('/posts-with-comments');
+          this.isLoading = false;
         })
         .catch((err) => {
           console.log(err);
         });
     },
     firstTabUpdateUserInformation_ByFormDataImage() {
+      this.isLoading = true;
       const id = '6277d49f5b11695971e06846';
       const url = `https://blooming-sands-85089.herokuapp.com/user-with-FormDataImage/${id}`;
       const data = new FormData();
@@ -217,6 +239,7 @@ export default {
         .patch(url, data)
         .then(() => {
           this.$router.push('/posts-with-comments');
+          this.isLoading = false;
         })
         .catch((err) => {
           console.log(err);
@@ -248,6 +271,8 @@ export default {
       }
     },
     secondTabUpdateUserInformation() {
+      this.isLoading = true;
+
       const id = '6277d49f5b11695971e06846';
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
       const data = {
@@ -258,6 +283,7 @@ export default {
         .patch(url, data)
         .then(() => {
           this.$router.push('/posts-with-comments');
+          this.isLoading = false;
         })
         .catch((err) => {
           console.log(err);
@@ -267,6 +293,108 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+// loading Circle start
+.loadingBackground {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  background: gray;
+  opacity: 0.5;
+}
+.loading {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  top: 50%;
+  margin-left: -50px; /* 100px/2 = 50px */
+  margin-top: -50px; /* ditto */
+  z-index: 201;
+}
+.lds-spinner {
+  color: official;
+  // display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-spinner div {
+  transform-origin: 40px 40px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 37px;
+  width: 6px;
+  height: 18px;
+  border-radius: 20%;
+  background: black;
+}
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+// loading Circle end
 .modifyPersonalProfile {
   margin-left: 0em;
   padding-right: 2%;
