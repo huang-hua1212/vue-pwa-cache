@@ -2,7 +2,9 @@
   <div class="container Likes-List">
     <div class="Likes">
       <div class="pos_1">
-        <div class="above"><h3>追蹤名單</h3></div>
+        <div class="above">
+          <div class="above-title"><h>我按讚的貼文</h></div>
+        </div>
         <div class="under"></div>
       </div>
       <div class="pos_2">
@@ -64,7 +66,7 @@ export default {
   padding-bottom: 1.5em;
 }
 .pos_1 {
-  height: 4em;
+  height: 5em;
   position: relative;
 }
 .under {
@@ -86,6 +88,13 @@ export default {
   z-index: 100;
   text-align: center;
   vertical-align: middle;
+}
+.above > .above-title {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  font-size: 1.2em;
 }
 .pos_2 {
   border-radius: 0.5em;

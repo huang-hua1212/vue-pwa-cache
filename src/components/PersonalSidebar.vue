@@ -54,7 +54,7 @@ export default {
       // color_2: 'royalblue',
     };
   },
-  mounted() {
+  created() {
     this.getUserInformation();
   },
   methods: {

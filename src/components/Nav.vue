@@ -42,7 +42,7 @@
           "
         >
           <ul class="dropDonw-List-Ul">
-            <router-link to="">
+            <router-link to="/my-personal-wall">
               <li style="">我的貼文牆</li>
             </router-link>
             <router-link to="/modify-personal-profile">

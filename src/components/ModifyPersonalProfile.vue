@@ -2,7 +2,9 @@
   <div class="container modifyPersonalProfiles">
     <div class="modifyPersonalProfile">
       <div class="pos_1">
-        <div class="above"><h3>修改個人資料</h3></div>
+        <div class="above">
+          <div class="above-title"><h>修改個人資料</h></div>
+        </div>
         <div class="under"></div>
       </div>
       <div class="pos_2">
@@ -179,7 +181,8 @@ export default {
   },
   methods: {
     getUserInformation() {
-      const id = '6277d49f5b11695971e06846';
+      const id = '6277d49f5b11695971e06846'; // 主使用者
+      // const id = '627a2742b2af092f54100b44'; // 客使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
 
       axios
@@ -408,7 +411,7 @@ export default {
   padding-bottom: 1.5em;
 }
 .pos_1 {
-  height: 4em;
+  height: 5em;
   position: relative;
 }
 .under {
@@ -430,6 +433,13 @@ export default {
   z-index: 100;
   text-align: center;
   vertical-align: middle;
+}
+.above > .above-title {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  font-size: 1.2em;
 }
 // tabs
 .pos_2 {

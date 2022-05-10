@@ -36,6 +36,11 @@ const routes = [
         name: 'LikesList',
         component: () => import('@/components/LikesList.vue'),
       },
+      {
+        path: 'my-personal-wall',
+        name: 'MyPersonalWall',
+        component: () => import('@/components/MyPersonalWall.vue'),
+      },
     ],
   },
   {
