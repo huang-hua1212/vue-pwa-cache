@@ -43,7 +43,9 @@ export default {
       userProfile: {},
     };
   },
-  created() {},
+  created() {
+    this.getUserInformation();
+  },
   methods: {
     getUserInformation() {
       const id = '6277d49f5b11695971e06846'; // 主使用者
@@ -56,7 +58,6 @@ export default {
           console.log(res);
           const userProfile = res.data.datas;
           this.userProfile = userProfile;
-          
         })
         .catch((err) => {
           console.dir(err);
