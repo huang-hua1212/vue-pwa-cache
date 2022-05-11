@@ -7,32 +7,52 @@
           :style="{ 'background-image': 'url(' + userHeadImg + ')' }"
           style="background-size: cover; background-position: center; overflow: hidden"
         ></div>
+        <div class="name-Date">
+          <h3>
+            {{ userInformation.name }}
+          </h3>
+          <h5>100,000 人追蹤</h5>
+        </div>
+        <div class="followBtn"></div>
       </div>
       <div class="under"></div>
     </div>
   </div>
 </template>
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 
 export default {
   data() {
     return {
+      userInformation: {},
       userHeadImg:
         'https://images.unsplash.com/photo-1536339258903-69fa31f99a28?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
     };
   },
-  created() {},
+  created() {
+    this.getUserInformation();
+  },
   methods: {
-    // getSpecifyIDInforms() {
-    //   const id = '627a2742b2af092f54100b44';
-    //   axios
-    //     .get()
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((err) => {});
-    // },
+    getUserInformation() {
+      const id = '627a2742b2af092f54100b44';
+      const url = `http://blooming-sands-85089.herokuapp.com/user/${id}`;
+      axios
+        .get(url)
+        .then((res) => {
+          this.userInformation = res.data.datas;
+        })
+        .catch(() => {});
+    },
+    getSpecifyIDInforms() {
+      // const id = '627a2742b2af092f54100b44';
+      axios
+        .get()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(() => {});
+    },
   },
 };
 </script>
@@ -61,6 +81,7 @@ export default {
 }
 .above {
   position: absolute;
+  display: flex;
   height: 100%;
   width: 100%;
   background: white;
@@ -75,5 +96,16 @@ export default {
   height: 100%;
   border-radius: 0.5em 0 0 0.5em;
   border-right: black solid;
+}
+.name-Date {
+  vertical-align: middle;
+  text-align: center;
+  margin-left: 1em;
+}
+.name-Date h3 {
+  margin-bottom: 0em;
+}
+.name-Date h5 {
+  margin-top: 0em;
 }
 </style>
