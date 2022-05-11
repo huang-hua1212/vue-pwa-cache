@@ -14,8 +14,13 @@
           <h5>100,000 人追蹤</h5>
         </div>
         <div class="follow-Btn">
-          <a type="button" class="follow-A" href="#" @click.prevent=""
-            ><div class="follow-Btn-div">取消追蹤</div></a
+          <a type="button" class="follow-A" href="#" @click.prevent="followOrCancelFollow()"
+            ><div
+              class="follow-Btn-div"
+              :class="{ 'follow-Btn-div-cancel': isCancelFollowBtnActive }"
+            >
+              {{ isCancelFollowBtnActive ? '取消追蹤' : '追蹤' }}
+            </div></a
           >
         </div>
       </div>
@@ -125,20 +130,75 @@ export default {
       searchText: '',
       isLoading: false,
       posts: [],
+      isCancelFollowBtnActive: false,
+      myUserInformation: {},
     };
   },
   created() {
-    this.getUserInformation();
+    this.getMyUserInformation();
+    // this.getUserInformation();
     this.getPosts();
   },
   methods: {
+    follow() {
+      const id = this.myUserInformation._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/userFollowing/${id}`;
+      const data = {
+        user: this.userId,
+        whoFollow: id,
+      };
+      console.log(data);
+      // 更新collection following
+      axios
+        .post(url, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+    cancelFollow() {},
+    followOrCancelFollow() {
+      if (this.isCancelFollowBtnActive) {
+        console.log('取消追蹤');
+        // cancelFollow啟用
+        // this.cancelFollow();
+      } else {
+        console.log('追蹤');
+        // 追蹤
+        this.follow();
+      }
+    },
+    getMyUserInformation() {
+      const id = '6277d49f5b11695971e06846';
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+      axios
+        .get(url)
+        .then((res) => {
+          console.log('getMyUserInformation');
+          this.myUserInformation = res.data.datas;
+          return this.getUserInformation();
+        })
+        .catch(() => {});
+    },
     getUserInformation() {
-      // const id = '627a2742b2af092f54100b44';
-      const url = `http://blooming-sands-85089.herokuapp.com/user/${this.userId}`;
+      const { id } = this.$route.params;
+      this.userId = id;
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${this.userId}`;
       axios
         .get(url)
         .then((res) => {
           this.userInformation = res.data.datas;
+          // 是否已追蹤
+          const isFollow = this.myUserInformation.followings.filter(
+            (following) => following.user._id === this.userInformation._id,
+          );
+          if (isFollow.length === 0) {
+            this.isCancelFollowBtnActive = false;
+          } else {
+            this.isCancelFollowBtnActive = true;
+          }
         })
         .catch(() => {});
     },
@@ -149,7 +209,6 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          console.log(res);
           res.data.datas.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
             post.createAt_Original = post.createAt;
@@ -176,7 +235,6 @@ export default {
       } else if (this.sortBy === 'oldest') {
         this.posts.sort((a, b) => new Date(a.createAt_Original) - new Date(b.createAt_Original));
       }
-      console.log(this.posts);
     },
     searchByText() {
       const data = {
@@ -311,10 +369,27 @@ export default {
   font-size: 0.8em;
   font-weight: bold;
   height: 2em;
+  font: normal normal bold 0.9em Noto Sans TC;
+  vertical-align: middle;
+  text-align: center;
+  margin-top: 1.3em;
+  padding-top: 0.6em;
+  border-radius: 0.5em;
+  border: black solid;
+  padding-left: 2em;
+  padding-right: 2em;
+  box-shadow: 0px 2px 0px #000400;
+  background: #eec32a;
+  color: black;
+}
+.follow-Btn-div-cancel {
+  font-size: 0.8em;
+  font-weight: bold;
+  height: 2em;
   font: normal normal bold 0.8em Noto Sans TC;
   vertical-align: middle;
   text-align: center;
-  margin-top: 1.75em;
+  margin-top: 1.5em;
   padding-top: 0.6em;
   border-radius: 0.5em;
   border: black solid;

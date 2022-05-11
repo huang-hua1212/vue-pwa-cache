@@ -22,13 +22,13 @@
       </div>
       <div v-for="post in posts" :key="post" class="post">
         <div class="pos_1">
-          <a type="button" class="" href="#" @click.prevent="">
+          <router-link class="" :to="`/personal-wall/${post.user._id}`">
             <div
               class="postHeadImg"
               :style="{ 'background-image': 'url(' + post.user.photo + ')' }"
               style="background-size: cover; background-position: center; overflow: hidden"
             ></div
-          ></a>
+          ></router-link>
           <div class="posterName">
             <h3>{{ post.user.name }}</h3>
             <h5>{{ post.createAt }}</h5>
@@ -116,7 +116,6 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          // this.data = res.data.datas;
           res.data.datas.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
             post.createAt_Original = post.createAt;
