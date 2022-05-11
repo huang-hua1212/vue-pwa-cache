@@ -7,7 +7,7 @@
         </div>
         <div class="under"></div>
       </div>
-      <div class="pos_2" v-for="following in userProfile.following" :key= "following">
+      <div class="pos_2" v-for="following in userProfile.followings" :key="following">
         <div class="follower">
           <a type="button" class="uploadImg" href="#" @click.prevent="">
             <div
@@ -23,10 +23,10 @@
             ></div>
           </a>
           <div class="followerName">
-            <h3>名稱</h3>
-            <h5>追蹤時間: 2022/05/01</h5>
+            <h3>{{following.user.name}}</h3>
+            <h5>追蹤時間: {{ following.createdAt }}</h5>
           </div>
-          <h5 class="followDays">您已追蹤90天</h5>
+          <h5 class="followDays">您已追蹤 {{following.diffDays}} 天</h5>
         </div>
       </div>
     </div>
@@ -45,6 +45,15 @@ export default {
     this.getUserInformation();
   },
   methods: {
+    getNumberOfDays(start, end) {
+      const date1 = new Date(start);
+      const date2 = new Date(end);
+      const oneDay = 1000 * 60 * 60 * 24;
+      const diffInTime = date2.getTime() - date1.getTime();
+      const diffInDays = Math.round(diffInTime / oneDay);
+
+      return diffInDays;
+    },
     getUserInformation() {
       const id = '6277d49f5b11695971e06846'; // 主使用者
       // const id = '627a2742b2af092f54100b44'; // 客使用者
@@ -53,9 +62,18 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          console.log(res);
+          res.data.datas.followings.forEach((following) => {
+            // eslint-disable-next-line no-param-reassign
+            following.createdAt_Original = following.createdAt;
+            // eslint-disable-next-line no-param-reassign
+            following.diffDays = this.getNumberOfDays(following.createdAt, Date.now()) + 1;
+            const [first] = following.createdAt.split('T');
+            // eslint-disable-next-line no-param-reassign
+            following.createdAt = first;
+          });
           const userProfile = res.data.datas;
           this.userProfile = userProfile;
+          console.log(this.userProfile);
         })
         .catch((err) => {
           console.dir(err);
@@ -141,5 +159,6 @@ export default {
   margin-left: auto;
   margin-right: 2em;
   margin-top: 2.5em;
+  // padding-bottom: 0.5em;
 }
 </style>

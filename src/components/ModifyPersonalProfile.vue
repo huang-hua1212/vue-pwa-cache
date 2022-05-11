@@ -176,6 +176,7 @@ export default {
     getUserInformation() {
       const id = '6277d49f5b11695971e06846'; // 主使用者
       // const id = '627a2742b2af092f54100b44'; // 客使用者
+      // const id = '627b5e55b50ea7cd805ddcca'; // 客使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
 
       axios
@@ -228,6 +229,7 @@ export default {
       this.isLoading = true;
       const id = '6277d49f5b11695971e06846';
       // const id = '627a2742b2af092f54100b44'; // 客使用者
+      // const id = '627b5e55b50ea7cd805ddcca'; // 客使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user-with-FormDataImage/${id}`;
       const data = new FormData();
       data.append('name', this.nickName);
