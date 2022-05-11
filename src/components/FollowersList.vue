@@ -7,29 +7,27 @@
         </div>
         <div class="under"></div>
       </div>
-      <div class="pos_2">
-        <a type="button" class="uploadImg" href="#" @click.prevent="">
-          <div class="follower">
-            <div class="followerHeadImg" style="width: 3.5em; padding-top: 3.5em"></div>
-            <div class="followerName">
-              <h3>名稱</h3>
-              <h5>追蹤時間: 2022/05/01</h5>
-            </div>
-            <h5 class="followDays">您已追蹤90天</h5>
+      <div class="pos_2" v-for="following in userProfile.following" :key= "following">
+        <div class="follower">
+          <a type="button" class="uploadImg" href="#" @click.prevent="">
+            <div
+              class="followerHeadImg"
+              :style="{ 'background-image': 'url(' + following.user.photo + ')' }"
+              style="
+                width: 3.5em;
+                padding-top: 3.5em;
+                background-size: cover;
+                background-position: center;
+                overflow: hidden;
+              "
+            ></div>
+          </a>
+          <div class="followerName">
+            <h3>名稱</h3>
+            <h5>追蹤時間: 2022/05/01</h5>
           </div>
-        </a>
-      </div>
-      <div class="pos_2">
-        <a type="button" class="uploadImg" href="#" @click.prevent="">
-          <div class="follower">
-            <div class="followerHeadImg" style="width: 3.5em; padding-top: 3.5em"></div>
-            <div class="followerName">
-              <h3>名稱</h3>
-              <h5>追蹤時間: 2022/05/01</h5>
-            </div>
-            <h5 class="followDays">您已追蹤90天</h5>
-          </div>
-        </a>
+          <h5 class="followDays">您已追蹤90天</h5>
+        </div>
       </div>
     </div>
   </div>

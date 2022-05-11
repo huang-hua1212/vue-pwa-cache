@@ -8,35 +8,36 @@
         <div class="under"></div>
       </div>
       <div class="pos_2">
-        <a type="button" class="likeDetails" href="#" @click.prevent="">
-          <div class="like">
-            <div class="likeHeadImg" style="width: 3.5em; padding-top: 3.5em"></div>
+        <div class="like">
+          <a type="button" class="likeDetails" href="#" @click.prevent="">
+            <div class="likeHeadImg"
+            style="width: 3.5em; padding-top: 3.5em"></div>
             <div class="likeName">
               <h3>名稱</h3>
               <h5>發文時間: 2022/05/01</h5>
             </div>
-            <div class="delete-and-seeDetails">
-              <a type="button" class="thumbs-up-A" href="#" @click.prevent="">
-                <font-awesome-icon
-                  class="thumbs-up-Icon"
-                  icon="thumbs-up"
-                  size="1x"
-                  :style="{ color: '#969799' }"
-                />
-                <div class="delBtn">取消</div>
-              </a>
-              <a type="button" class="arrow-right-A" href="#" @click.prevent="">
-                <font-awesome-icon
-                  class="arrow-right-Icon"
-                  icon="circle-arrow-right"
-                  size="1x"
-                  :style="{ color: '#969799' }"
-                />
-                <div class="searchBtn">查看</div>
-              </a>
-            </div>
+          </a>
+          <div class="delete-and-seeDetails">
+            <a type="button" class="thumbs-up-A" href="#" @click.prevent="">
+              <font-awesome-icon
+                class="thumbs-up-Icon"
+                icon="thumbs-up"
+                size="1x"
+                :style="{ color: '#969799' }"
+              />
+              <div class="delBtn">取消</div>
+            </a>
+            <a type="button" class="arrow-right-A" href="#" @click.prevent="">
+              <font-awesome-icon
+                class="arrow-right-Icon"
+                icon="circle-arrow-right"
+                size="1x"
+                :style="{ color: '#969799' }"
+              />
+              <div class="searchBtn">查看</div>
+            </a>
           </div>
-        </a>
+        </div>
       </div>
     </div>
   </div>
@@ -105,13 +106,27 @@ export default {
   background: white;
   box-shadow: 0 0.2em 0em -0.005em black;
 }
-.like {
+.likeDetails {
   display: flex;
   margin-left: 1em;
   margin-top: 0.8em;
   margin-bottom: 0.1em;
   color: black;
 }
+.like {
+  display: flex;
+  // margin-left: 1em;
+  // margin-top: 0.8em;
+  // margin-bottom: 0.1em;
+  // color: black;
+}
+// .like {
+//   display: flex;
+//   margin-left: 1em;
+//   margin-top: 0.8em;
+//   margin-bottom: 0.1em;
+//   color: black;
+// }
 .likeHeadImg {
   position: relative;
   border-radius: 50%;

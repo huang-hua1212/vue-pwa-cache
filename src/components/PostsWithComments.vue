@@ -135,9 +135,6 @@ export default {
         });
     },
     sort() {
-      // console.log(typeof this.sortBy);
-      // console.log(new Date(this.posts[0].createAt));
-      // console.log(new Date(this.posts[0].createAt) > new Date(this.posts[1].createAt));
       if (this.sortBy === 'newest') {
         this.posts.sort((a, b) => new Date(b.createAt_Original) - new Date(a.createAt_Original));
       } else if (this.sortBy === 'oldest') {

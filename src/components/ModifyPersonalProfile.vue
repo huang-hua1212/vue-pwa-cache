@@ -31,13 +31,6 @@
                       />
                     </label>
                   </div>
-                  <!-- <a
-                    type="button"
-                    class="uploadImg-A"
-                    href="#"
-                    @change.prevent="uploadImage($event)"
-                    ><div class="uploadImg">上傳大頭照</div></a
-                  > -->
                   <div class="nickName-Form">
                     <label class="nickName-Form-Label">暱稱</label><br />
                     <input

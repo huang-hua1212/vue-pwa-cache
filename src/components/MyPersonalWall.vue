@@ -118,7 +118,8 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      userId: '627a2742b2af092f54100b44',
+      // userId: '627a2742b2af092f54100b44',
+      userId: '6277d49f5b11695971e06846',
       userInformation: {},
       sortBy: 'newest',
       searchText: '',
