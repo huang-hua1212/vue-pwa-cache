@@ -35,12 +35,36 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
-    return {};
+    return {
+      userProfile: {},
+    };
   },
   created() {},
-  methods: {},
+  methods: {
+    getUserInformation() {
+      const id = '6277d49f5b11695971e06846'; // 主使用者
+      // const id = '627a2742b2af092f54100b44'; // 客使用者
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+
+      axios
+        .get(url)
+        .then((res) => {
+          const userProfile = res.data.datas;
+          this.userProfile = userProfile;
+          // this.imgs = [];
+          // this.imgs.push(userProfile.photo);
+          // this.nickName = userProfile.name;
+          // this.sex = userProfile.sex;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
