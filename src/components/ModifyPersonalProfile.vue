@@ -209,6 +209,7 @@ export default {
     firstTabUpdateUserInformation_ByUrlImage() {
       this.isLoading = true;
       const id = '6277d49f5b11695971e06846';
+      //  const id = '627a2742b2af092f54100b44'; // 客使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
       // const data = new FormData();
       // data.append('name', this.nickName);
@@ -233,6 +234,7 @@ export default {
     firstTabUpdateUserInformation_ByFormDataImage() {
       this.isLoading = true;
       const id = '6277d49f5b11695971e06846';
+      // const id = '627a2742b2af092f54100b44'; // 客使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user-with-FormDataImage/${id}`;
       const data = new FormData();
       data.append('name', this.nickName);

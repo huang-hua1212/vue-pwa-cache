@@ -117,7 +117,7 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          this.data = res.data.datas;
+          // this.data = res.data.datas;
           res.data.datas.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
             post.createAt_Original = post.createAt;
@@ -218,10 +218,10 @@ export default {
   }
 }
 // progress bar end
-.posts {
-  margin-left: 0em;
-  width: 60%;
-}
+// .posts {
+//   margin-left: 0em;
+//   width: 60%;
+// }
 // search start
 .search-Div {
   display: flex;
