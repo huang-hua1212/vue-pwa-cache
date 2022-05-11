@@ -53,12 +53,10 @@ export default {
       axios
         .get(url)
         .then((res) => {
+          console.log(res);
           const userProfile = res.data.datas;
           this.userProfile = userProfile;
-          // this.imgs = [];
-          // this.imgs.push(userProfile.photo);
-          // this.nickName = userProfile.name;
-          // this.sex = userProfile.sex;
+          
         })
         .catch((err) => {
           console.dir(err);
