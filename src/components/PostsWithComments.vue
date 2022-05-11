@@ -25,9 +25,8 @@
           <a type="button" class="" href="#" @click.prevent="">
             <div
               class="postHeadImg"
-              style="
-                background: url('https://images.unsplash.com/profile-1565658044215-2269917ff124?dpr=2&auto=format&fit=crop&w=32&h=32&q=60&crop=faces&bg=fff');
-              "
+              :style="{ 'background-image': 'url(' + post.user.photo + ')' }"
+              style="background-size: cover; background-position: center; overflow: hidden"
             ></div
           ></a>
           <div class="posterName">
