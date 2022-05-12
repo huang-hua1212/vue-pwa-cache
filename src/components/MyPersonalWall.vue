@@ -132,6 +132,7 @@ export default {
       posts: [],
       isCancelFollowBtnActive: false,
       myUserInformation: {},
+      followingId: '',
     };
   },
   created() {
@@ -141,32 +142,44 @@ export default {
   },
   methods: {
     follow() {
-      const id = this.myUserInformation._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/userFollowing/${id}`;
+      const myUserId = this.myUserInformation._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/userFollowing/${myUserId}`;
       const data = {
         user: this.userId,
-        whoFollow: id,
+        whoFollow: myUserId,
       };
-      console.log(data);
       // 更新collection following
       axios
         .post(url, data)
         .then((res) => {
-          console.log(res);
+          this.followingId = res.data.data;
+          this.isCancelFollowBtnActive = true;
         })
         .catch((err) => {
           console.dir(err);
         });
     },
-    cancelFollow() {},
+    cancelFollow() {
+      const myUserId = this.myUserInformation._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/userFollowing/${myUserId}`;
+
+      const data = {
+        _id: this.followingId,
+      };
+      axios
+        .patch(url, data)
+        .then(() => {
+          this.followingId = '';
+          this.isCancelFollowBtnActive = false;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
     followOrCancelFollow() {
       if (this.isCancelFollowBtnActive) {
-        console.log('取消追蹤');
-        // cancelFollow啟用
-        // this.cancelFollow();
+        this.cancelFollow();
       } else {
-        console.log('追蹤');
-        // 追蹤
         this.follow();
       }
     },
@@ -176,7 +189,6 @@ export default {
       axios
         .get(url)
         .then((res) => {
-          console.log('getMyUserInformation');
           this.myUserInformation = res.data.datas;
           return this.getUserInformation();
         })
@@ -194,7 +206,8 @@ export default {
           const isFollow = this.myUserInformation.followings.filter(
             (following) => following.user._id === this.userInformation._id,
           );
-          if (isFollow.length === 0) {
+          this.followingId = isFollow[0]._id;
+          if (this.followingId === '') {
             this.isCancelFollowBtnActive = false;
           } else {
             this.isCancelFollowBtnActive = true;
@@ -227,9 +240,6 @@ export default {
         });
     },
     sort() {
-      // console.log(typeof this.sortBy);
-      // console.log(new Date(this.posts[0].createAt));
-      // console.log(new Date(this.posts[0].createAt) > new Date(this.posts[1].createAt));
       if (this.sortBy === 'newest') {
         this.posts.sort((a, b) => new Date(b.createAt_Original) - new Date(a.createAt_Original));
       } else if (this.sortBy === 'oldest') {
