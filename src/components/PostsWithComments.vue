@@ -42,9 +42,10 @@
         </div>
         <div class="pos_4">
           <!-- 按讚 -->
-          <a type="button" class="thumbs-up-A" href="#" @click.prevent="">
+          <a type="button" class="thumbs-up-A" href="#" @click.prevent="addLike(post)">
             <font-awesome-icon icon="thumbs-up" size="1.5x" :style="{ color: '#969799' }" />
           </a>
+          <div>&nbsp;{{ post.likes }}</div>
         </div>
         <div class="pos_5">
           <div class="pos_1">
@@ -139,7 +140,6 @@ export default {
       } else if (this.sortBy === 'oldest') {
         this.posts.sort((a, b) => new Date(a.createAt_Original) - new Date(b.createAt_Original));
       }
-      console.log(this.posts);
     },
     searchByText() {
       const data = {
@@ -151,6 +151,23 @@ export default {
         .post(url, data)
         .then((res) => {
           this.posts = res.data.datas;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addLike(post) {
+      const postId = post._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const postReassign = post;
+      postReassign.likes += 1;
+      const data = {
+        likes: post.likes,
+      };
+      axios
+        .patch(url, data)
+        .then((res) => {
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -323,6 +340,7 @@ img {
   border-radius: 8pt;
 }
 .pos_4 {
+  display: flex;
   width: 98.2%;
   height: auto;
   padding-bottom: 0;
