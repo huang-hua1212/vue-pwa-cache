@@ -387,10 +387,10 @@ img {
   height: auto;
   display: flex;
   align-items: center;
-  margin-left: 1em;
+  margin-left: 1.8em;
 }
 .postComment {
-  padding-left: 5.7em;
+  padding-left: 6.5em;
 }
 .postComment > h4 {
   margin-top: 1.3em;
