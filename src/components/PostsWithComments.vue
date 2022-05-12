@@ -372,7 +372,7 @@ img {
 }
 .pos_6 {
   margin-left: 0.3em;
-  width: 94%;
+  width: 93.5%;
   border: black solid;
   border-radius: 1.1em;
   background: #faf9f8;
