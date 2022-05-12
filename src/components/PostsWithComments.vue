@@ -61,7 +61,7 @@
         </div>
         <!-- 各篇留言 -->
         <div class="pos_6">
-          <div class="pos_1">
+          <div class="pos_6_HeadName">
             <a type="button" class="" href="#" @click.prevent="">
               <div
                 class="postHeadImg"
@@ -371,17 +371,26 @@ img {
   color: black;
 }
 .pos_6 {
+  margin-left: 0.3em;
+  width: 94%;
+  border: black solid;
   border-radius: 1.1em;
   background: #faf9f8;
   padding-bottom: 1.1em;
-  padding-left: 1.5em;
+  // padding-left: 1.5em;
   padding-top: 1.5em;
   margin-top: 1em;
   vertical-align: middle;
   align-items: center;
 }
+.pos_6_HeadName {
+  height: auto;
+  display: flex;
+  align-items: center;
+  margin-left: 1em;
+}
 .postComment {
-  padding-left: 4.8em;
+  padding-left: 5.7em;
 }
 .postComment > h4 {
   margin-top: 1.3em;
