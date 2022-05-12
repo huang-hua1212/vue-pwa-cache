@@ -42,10 +42,14 @@
         </div>
         <div class="pos_4">
           <!-- 按讚 -->
-          <a type="button" class="thumbs-up-A" href="#" @click.prevent="addLike(post)">
-            <font-awesome-icon icon="thumbs-up" size="1.5x" :style="{ color: '#969799' }" />
+          <a type="button" class="thumbs-up-A" href="#" @click.prevent="addLikeOrDeleteLike(post)">
+            <unicon
+              class="thumbs-up"
+              name="thumbs-up"
+              :fill="[post.isLikeClicked ? 'royalblue' : '#a6a6a6']"
+            ></unicon>
           </a>
-          <div>&nbsp;{{ post.likes }}</div>
+          <div>&nbsp;&nbsp;{{ post.likes }}</div>
         </div>
         <div class="pos_5">
           <div class="pos_1">
@@ -97,6 +101,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      myUserId: '6277d49f5b11695971e06846', // 主使用者
       posts: [],
       content: '外面看起來就超冷!\n我決定回被窩裡繼續睡',
       imgs: [
@@ -105,9 +110,10 @@ export default {
       isLoading: false,
       searchText: '',
       sortBy: 'newest',
+      isLikeClicked: false,
     };
   },
-  created() {
+  mounted() {
     this.getPosts();
   },
   methods: {
@@ -126,6 +132,10 @@ export default {
           });
           this.posts = res.data.datas;
           this.sort();
+          this.posts.forEach((post) => {
+            // eslint-disable-next-line no-param-reassign
+            post.isLikeClicked = post.whoLikes.includes(this.myUserId);
+          });
           setTimeout(() => {
             this.isLoading = false;
           }, 1500);
@@ -156,13 +166,18 @@ export default {
           console.log(err);
         });
     },
-    addLike(post) {
+    addLike(post_) {
+      const post = post_;
+      const userId = this.myUserId; // 主使用者
       const postId = post._id;
       const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
       const postReassign = post;
       postReassign.likes += 1;
+      post.isLikeClicked = true;
+      post.whoLikes.push(userId);
       const data = {
         likes: post.likes,
+        whoLikes: post.whoLikes,
       };
       axios
         .patch(url, data)
@@ -172,6 +187,36 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    deleteLike(post_) {
+      const post = post_;
+      const userId = this.myUserId; // 主使用者
+      const postId = post._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const postReassign = post;
+      postReassign.likes -= 1;
+      post.isLikeClicked = false;
+      // eslint-disable-next-line no-param-reassign
+      post.whoLikes = post.whoLikes.filter((whoLike) => whoLike !== userId);
+      const data = {
+        likes: post.likes,
+        whoLikes: post.whoLikes,
+      };
+      axios
+        .patch(url, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addLikeOrDeleteLike(post) {
+      if (post.isLikeClicked) {
+        this.deleteLike(post);
+      } else {
+        this.addLike(post);
+      }
     },
   },
 };
@@ -347,14 +392,14 @@ img {
   padding-left: 0.3em;
   margin-top: 1em;
 }
-.pos_4 {
-  display: flex;
+.thumbs-up-A {
+  margin-top: -1.3em;
 }
 .pos_5 {
   display: flex;
   padding-bottom: 0;
   padding-left: 0.3em;
-  margin-top: 1em;
+  margin-top: 0.5em;
   vertical-align: middle;
   align-items: center;
   width: 93.5%;
