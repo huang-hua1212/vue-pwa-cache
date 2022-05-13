@@ -217,6 +217,8 @@ export default {
     },
     // search
     getPosts() {
+      const { id } = this.$route.params;
+      this.userId = id;
       this.isLoading = true;
       const url = `https://blooming-sands-85089.herokuapp.com/posts-by-userId/${this.userId}`;
       axios
