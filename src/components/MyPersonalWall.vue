@@ -184,7 +184,8 @@ export default {
       }
     },
     getMyUserInformation() {
-      const id = '6277d49f5b11695971e06846';
+      const id = '6277d49f5b11695971e06846'; // 主使用者
+      // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
       axios
         .get(url)

@@ -123,6 +123,7 @@ export default {
       axios
         .get(url)
         .then((res) => {
+          console.log(res);
           res.data.datas.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
             post.createAt_Original = post.createAt;

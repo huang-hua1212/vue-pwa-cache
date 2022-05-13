@@ -112,7 +112,7 @@ export default {
         .post('https://blooming-sands-85089.herokuapp.com/posts-with-FormDataImage', data)
         .then(() => {
           this.isLoading = false;
-          this.$router.push('/posts');
+          this.$router.push('/posts-with-comments');
         })
         .catch((err) => {
           console.dir(err);
