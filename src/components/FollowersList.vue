@@ -23,10 +23,10 @@
             ></div>
           </a>
           <div class="followerName">
-            <h3>{{following.user.name}}</h3>
+            <h3>{{ following.user.name }}</h3>
             <h5>追蹤時間: {{ following.createdAt }}</h5>
           </div>
-          <h5 class="followDays">您已追蹤 {{following.diffDays}} 天</h5>
+          <h5 class="followDays">您已追蹤 {{ following.diffDays }} 天</h5>
         </div>
       </div>
     </div>

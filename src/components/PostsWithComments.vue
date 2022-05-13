@@ -33,6 +33,11 @@
             <h3>{{ post.user.name }}</h3>
             <h5>{{ post.createAt }}</h5>
           </div>
+          <div class="post-edit-div">
+            <a type="button" class="post-edit-A" href="#" @click.prevent="">
+              <div class="post-edit-btn"><unicon name="ellipsis-h" fill="black"></unicon></div
+            ></a>
+          </div>
         </div>
         <div class="pos_2 content">
           <h4>{{ post.content }}</h4>
@@ -53,11 +58,26 @@
         </div>
         <div class="pos_5">
           <div class="pos_1">
-            <div class="postHeadImg" style="width: 3.5em; padding-top: 3.5em"></div>
+            <div
+              class="postHeadImg"
+              :style="{ 'background-image': 'url(' + myUserInformation.photo + ')' }"
+              style="
+                width: 3.5em;
+                padding-top: 3.5em;
+                background-size: cover;
+                background-position: center;
+                overflow: hidden;
+              "
+            ></div>
           </div>
           <div class="comment-form">
-            <input type="text" class="comment-form-text" placeholder="輸入留言..." />
-            <a type="button" class="comment-form-A" href="#" @click.prevent="">
+            <input
+              type="text"
+              class="comment-form-text"
+              v-model="post.comment.text"
+              placeholder="輸入留言..."
+            />
+            <a type="button" class="comment-form-A" href="#" @click.prevent="addComment(post)">
               <div class="comment-form-btn">
                 <h4>留言</h4>
               </div>
@@ -65,25 +85,28 @@
           </div>
         </div>
         <!-- 各篇留言 -->
-        <div class="pos_6">
+        <div class="pos_6" v-for="comment in post.commentDetail" :key="comment">
           <div class="pos_6_HeadName">
             <a type="button" class="" href="#" @click.prevent="">
               <div
                 class="postHeadImg"
                 style="
-                  background: url('https://images.unsplash.com/profile-1565658044215-2269917ff124?dpr=2&auto=format&fit=crop&w=32&h=32&q=60&crop=faces&bg=fff');
                   width: 3.5em;
                   padding-top: 3.5em;
+                  background-size: cover;
+                  background-position: center;
+                  overflow: hidden;
                 "
+                :style="{ 'background-image': 'url(' + comment.user.photo + ')' }"
               ></div>
             </a>
             <div class="posterName">
-              <h3>名稱</h3>
-              <h5>2022/05/01</h5>
+              <h3>{{ comment.user.name }}</h3>
+              <h5>{{ comment.updatedAt }}</h5>
             </div>
           </div>
           <div class="postComment">
-            <h4>真的~我已經準備長眠了</h4>
+            <h4>{{ comment.content }}</h4>
           </div>
         </div>
       </div>
@@ -101,9 +124,9 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      myUserInformation: {},
       myUserId: '6277d49f5b11695971e06846', // 主使用者
       posts: [],
-      content: '外面看起來就超冷!\n我決定回被窩裡繼續睡',
       imgs: [
         'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
       ],
@@ -111,19 +134,35 @@ export default {
       searchText: '',
       sortBy: 'newest',
       isLikeClicked: false,
+      comment: {
+        text: '',
+      },
     };
   },
   mounted() {
+    this.getMyUserInformation();
     this.getPosts();
   },
   methods: {
+    getMyUserInformation() {
+      const id = '6277d49f5b11695971e06846'; // 主使用者
+      // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+      axios
+        .get(url)
+        .then((res) => {
+          const { _id, photo } = res.data.datas;
+          this.myUserInformation = { _id, photo };
+          return this.getUserInformation();
+        })
+        .catch(() => {});
+    },
     getPosts() {
       this.isLoading = true;
       const url = 'https://blooming-sands-85089.herokuapp.com/posts';
       axios
         .get(url)
         .then((res) => {
-          console.log(res);
           res.data.datas.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
             post.createAt_Original = post.createAt;
@@ -136,6 +175,8 @@ export default {
           this.posts.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
             post.isLikeClicked = post.whoLikes.includes(this.myUserId);
+            // eslint-disable-next-line no-param-reassign
+            post.comment = { text: '' };
           });
           setTimeout(() => {
             this.isLoading = false;
@@ -197,7 +238,6 @@ export default {
       const postReassign = post;
       postReassign.likes -= 1;
       post.isLikeClicked = false;
-      // eslint-disable-next-line no-param-reassign
       post.whoLikes = post.whoLikes.filter((whoLike) => whoLike !== userId);
       const data = {
         likes: post.likes,
@@ -218,6 +258,43 @@ export default {
       } else {
         this.addLike(post);
       }
+    },
+    addComment(post) {
+      const myUserId = this.myUserInformation._id;
+      const postId = post._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/postAddComment/${postId}`;
+      const data = {
+        user: myUserId,
+        content: post.comment.text,
+      };
+      axios
+        .post(url, data)
+        .then((res) => {
+          console.log(res.data.data);
+          this.addCommentNum(post);
+          // eslint-disable-next-line no-param-reassign
+          this.getPosts();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addCommentNum(post_) {
+      const post = post_;
+      post.comments += 1;
+      const postId = post._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const data = {
+        comments: post.comments,
+      };
+      axios
+        .patch(url, data)
+        .then(() => {
+          console.log('addCommentNum Success!!!!');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -364,6 +441,10 @@ export default {
 .posterName {
   padding-left: 1em;
   line-height: 0.6pt;
+}
+.post-edit-div {
+  padding-top: -2em;
+  padding-left: 20em;
 }
 .content {
   padding-left: 0.3em;

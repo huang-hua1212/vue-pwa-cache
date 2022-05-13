@@ -5,24 +5,24 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-// temp Unicon
+// Vue Unicon
 import Unicon from 'vue-unicons';
-import { uniBell, uniThumbsUp, uniSearch } from 'vue-unicons/dist/icons';
+import {
+  uniBell, uniThumbsUp, uniSearch, uniEllipsisH,
+} from 'vue-unicons/dist/icons';
 
 import App from './App.vue';
 import router from './router';
 
 // temp Unicon
-Unicon.add([uniBell, uniThumbsUp, uniSearch]);
+Unicon.add([uniBell, uniThumbsUp, uniSearch, uniEllipsisH]);
 // temp fontawesom
 library.add(fas);
 
 // const app = createApp(App).use(router);
 const app = createApp(App);
 app.use(router);
-// temp Unicon
 app.use(Unicon);
-// temp fontawesom
 app.component('font-awesome-icon', FontAwesomeIcon);
 // app.component('BIcon', BIcon);
 // app.component('BIconArrowUp', BIconArrowUp);
