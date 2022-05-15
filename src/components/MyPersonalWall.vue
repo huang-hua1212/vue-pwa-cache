@@ -420,7 +420,7 @@ export default {
         });
     },
     deletePost(post) {
-      this.isLikeClicked = true;
+      this.isLoading = true;
       const id = post._id;
       const url = `http://blooming-sands-85089.herokuapp.com/posts/${id}`;
       axios
