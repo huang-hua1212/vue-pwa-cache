@@ -6,7 +6,7 @@
         <div class="postHeadImg"></div>
         <div class="posterName">
           <h3>{{ post.user.name }}</h3>
-          <h5>{{ post.createAt }}</h5>
+          <h5>{{ post.createdAt }}</h5>
         </div>
       </div>
       <div class="pos_2 content">
@@ -63,9 +63,9 @@ export default {
         .get(url)
         .then((res) => {
           res.data.datas.forEach((post) => {
-            const [first] = post.createAt.split('T');
+            const [first] = post.createdAt.split('T');
             // eslint-disable-next-line no-param-reassign
-            post.createAt = first;
+            post.createdAt = first;
           });
           this.posts = res.data.datas;
           setTimeout(() => {

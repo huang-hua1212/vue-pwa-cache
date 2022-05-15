@@ -31,16 +31,9 @@
           ></router-link>
           <div class="posterName">
             <h3>{{ post.user.name }}</h3>
-            <h5>{{ post.createAt }}</h5>
+            <h5>{{ post.createdAt }}</h5>
           </div>
           <div class="post-edit-div">
-            <!-- @blur="
-                {
-                  isDropDown = false;
-                }setTimeout(()=>{
-                    post.isDropDown = false;
-                  }, 20);
-              " -->
             <a
               type="button"
               class="post-edit-A"
@@ -159,7 +152,7 @@ export default {
       ],
       searchText: '',
       sortBy: 'newest',
-      isLikeClicked: false,
+      // isLikeClicked: false,
       isLoading: false,
       myUserInformation: {},
       myUserId: '6277d49f5b11695971e06846', // 主使用者
@@ -175,7 +168,7 @@ export default {
       setTimeout(() => {
         // eslint-disable-next-line no-param-reassign
         post.isDropDown = false;
-      }, 5);
+      }, 80);
     },
     getMyUserInformation() {
       const id = '6277d49f5b11695971e06846'; // 主使用者
@@ -198,16 +191,23 @@ export default {
         .then((res) => {
           res.data.datas.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
-            post.createAt_Original = post.createAt;
-            const [first] = post.createAt.split('T');
+            post.createdAt_Original = post.createdAt;
+            const [first] = post.createdAt.split('T');
             // eslint-disable-next-line no-param-reassign
-            post.createAt = first;
+            post.createdAt = first;
           });
           this.posts = res.data.datas;
           this.sort();
-          this.posts.forEach((post) => {
+          this.posts.forEach(async (post) => {
             // eslint-disable-next-line no-param-reassign
             post.isLikeClicked = post.whoLikes.includes(this.myUserId);
+            await post.commentDetail.forEach((comment) => {
+              // eslint-disable-next-line no-param-reassign
+              comment.updatedAt_Original = post.updatedAt;
+              const [first] = comment.updatedAt.split('T');
+              // eslint-disable-next-line no-param-reassign
+              comment.updatedAt = first;
+            });
             // eslint-disable-next-line no-param-reassign
             post.comment = { text: '' };
             // eslint-disable-next-line no-param-reassign
@@ -223,9 +223,9 @@ export default {
     },
     sort() {
       if (this.sortBy === 'newest') {
-        this.posts.sort((a, b) => new Date(b.createAt_Original) - new Date(a.createAt_Original));
+        this.posts.sort((a, b) => new Date(b.createdAt_Original) - new Date(a.createdAt_Original));
       } else if (this.sortBy === 'oldest') {
-        this.posts.sort((a, b) => new Date(a.createAt_Original) - new Date(b.createAt_Original));
+        this.posts.sort((a, b) => new Date(a.createdAt_Original) - new Date(b.createdAt_Original));
       }
     },
     searchByText() {
@@ -331,8 +331,10 @@ export default {
         });
     },
     deletePost(post) {
+      this.isLoading = true;
       const id = post._id;
       const url = `http://blooming-sands-85089.herokuapp.com/posts/${id}`;
+      console.log('觸發刪除!!!!');
       axios
         .delete(url)
         .then(() => {

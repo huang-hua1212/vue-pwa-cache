@@ -59,7 +59,32 @@
         ></a>
         <div class="posterName">
           <h3>{{ post.user.name }}</h3>
-          <h5>{{ post.createAt }}</h5>
+          <h5>{{ post.createdAt }}</h5>
+        </div>
+        <div class="post-edit-div">
+          <a
+            type="button"
+            class="post-edit-A"
+            href="#"
+            @click.prevent="
+              {
+                post.isDropDown = !isDropDown;
+              }
+            "
+            @blur="closeDropDown(post)"
+          >
+            <div class="post-edit-btn"><unicon name="ellipsis-h" fill="black"></unicon></div
+          ></a>
+          <transition name="fade" class="dropDown-List" v-if="post.isDropDown">
+            <ul class="dropDonw-List-Ul">
+              <a type="button" class="" href="#" @click.prevent="deletePost(post)">
+                <li style="">刪除</li>
+              </a>
+              <a type="button" class="" href="#" @click.prevent="">
+                <li style="">編輯</li>
+              </a>
+            </ul>
+          </transition>
         </div>
       </div>
       <div class="post_2 content">
@@ -70,17 +95,37 @@
       </div>
       <div class="post_4">
         <!-- 按讚 -->
-        <a type="button" class="thumbs-up-A" href="#" @click.prevent="">
-          <font-awesome-icon icon="thumbs-up" size="1.5x" :style="{ color: '#969799' }" />
+        <a type="button" class="thumbs-up-A" href="#" @click.prevent="addLikeOrDeleteLike(post)">
+          <unicon
+            class="thumbs-up"
+            name="thumbs-up"
+            :fill="[post.isLikeClicked ? 'royalblue' : '#a6a6a6']"
+          ></unicon>
         </a>
+        <div>&nbsp;&nbsp;{{ post.likes }}</div>
       </div>
       <div class="post_5">
         <div class="post_1">
-          <div class="postHeadImg" style="width: 3.5em; padding-top: 3.5em"></div>
+          <div
+            class="postHeadImg"
+            :style="{ 'background-image': 'url(' + myUserInformation.photo + ')' }"
+            style="
+              width: 3.5em;
+              padding-top: 3.5em;
+              background-size: cover;
+              background-position: center;
+              overflow: hidden;
+            "
+          ></div>
         </div>
         <div class="comment-form">
-          <input type="text" class="comment-form-text" placeholder="輸入留言..." />
-          <a type="button" class="comment-form-A" href="#" @click.prevent="">
+          <input
+            type="text"
+            class="comment-form-text"
+            v-model="post.comment.text"
+            placeholder="輸入留言..."
+          />
+          <a type="button" class="comment-form-A" href="#" @click.prevent="addComment(post)">
             <div class="comment-form-btn">
               <h4>留言</h4>
             </div>
@@ -88,25 +133,28 @@
         </div>
       </div>
       <!-- 各篇留言 -->
-      <div class="post_6">
-        <div class="post_1">
+      <div class="pos_6" v-for="comment in post.commentDetail" :key="comment">
+        <div class="pos_6_HeadName">
           <a type="button" class="" href="#" @click.prevent="">
             <div
               class="postHeadImg"
               style="
-                background: url('https://images.unsplash.com/profile-1565658044215-2269917ff124?dpr=2&auto=format&fit=crop&w=32&h=32&q=60&crop=faces&bg=fff');
                 width: 3.5em;
                 padding-top: 3.5em;
+                background-size: cover;
+                background-position: center;
+                overflow: hidden;
               "
+              :style="{ 'background-image': 'url(' + comment.user.photo + ')' }"
             ></div>
           </a>
           <div class="posterName">
-            <h3>名稱</h3>
-            <h5>2022/05/01</h5>
+            <h3>{{ comment.user.name }}</h3>
+            <h5>{{ comment.updatedAt }}</h5>
           </div>
         </div>
         <div class="postComment">
-          <h4>真的~我已經準備長眠了</h4>
+          <h4>{{ comment.content }}</h4>
         </div>
       </div>
     </div>
@@ -123,24 +171,29 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      // userId: '627a2742b2af092f54100b44',
-      userId: '6277d49f5b11695971e06846',
-      userInformation: {},
-      sortBy: 'newest',
-      searchText: '',
+      followingId: '',
       isLoading: false,
-      posts: [],
       isCancelFollowBtnActive: false,
       myUserInformation: {},
-      followingId: '',
+      myUserId: '6277d49f5b11695971e06846', // 主使用者
+      posts: [],
+      sortBy: 'newest',
+      searchText: '',
+      userId: '6277d49f5b11695971e06846',
+      userInformation: {},
     };
   },
   created() {
     this.getMyUserInformation();
-    // this.getUserInformation();
     this.getPosts();
   },
   methods: {
+    closeDropDown(post) {
+      setTimeout(() => {
+        // eslint-disable-next-line no-param-reassign
+        post.isDropDown = false;
+      }, 70);
+    },
     follow() {
       const myUserId = this.myUserInformation._id;
       const url = `https://blooming-sands-85089.herokuapp.com/userFollowing/${myUserId}`;
@@ -227,13 +280,28 @@ export default {
         .then((res) => {
           res.data.datas.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
-            post.createAt_Original = post.createAt;
-            const [first] = post.createAt.split('T');
+            post.createdAt_Original = post.createdAt;
+            const [first] = post.createdAt.split('T');
             // eslint-disable-next-line no-param-reassign
-            post.createAt = first;
+            post.createdAt = first;
           });
           this.posts = res.data.datas;
           this.sort();
+          this.posts.forEach(async (post) => {
+            // eslint-disable-next-line no-param-reassign
+            post.isLikeClicked = post.whoLikes.includes(this.myUserId);
+            await post.commentDetail.forEach((comment) => {
+              // eslint-disable-next-line no-param-reassign
+              comment.updatedAt_Original = post.updatedAt;
+              const [first] = comment.updatedAt.split('T');
+              // eslint-disable-next-line no-param-reassign
+              comment.updatedAt = first;
+            });
+            // eslint-disable-next-line no-param-reassign
+            post.comment = { text: '' };
+            // eslint-disable-next-line no-param-reassign
+            post.isDropDown = false;
+          });
           setTimeout(() => {
             this.isLoading = false;
           }, 1500);
@@ -244,9 +312,9 @@ export default {
     },
     sort() {
       if (this.sortBy === 'newest') {
-        this.posts.sort((a, b) => new Date(b.createAt_Original) - new Date(a.createAt_Original));
+        this.posts.sort((a, b) => new Date(b.createdAt_Original) - new Date(a.createdAt_Original));
       } else if (this.sortBy === 'oldest') {
-        this.posts.sort((a, b) => new Date(a.createAt_Original) - new Date(b.createAt_Original));
+        this.posts.sort((a, b) => new Date(a.createdAt_Original) - new Date(b.createdAt_Original));
       }
     },
     searchByText() {
@@ -258,6 +326,107 @@ export default {
         .post(url, data)
         .then((res) => {
           this.posts = res.data.datas;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addLike(post_) {
+      const post = post_;
+      const userId = this.myUserId; // 主使用者
+      const postId = post._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const postReassign = post;
+      postReassign.likes += 1;
+      post.isLikeClicked = true;
+      post.whoLikes.push(userId);
+      const data = {
+        likes: post.likes,
+        whoLikes: post.whoLikes,
+      };
+      axios
+        .patch(url, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    deleteLike(post_) {
+      const post = post_;
+      const userId = this.myUserId; // 主使用者
+      const postId = post._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const postReassign = post;
+      postReassign.likes -= 1;
+      post.isLikeClicked = false;
+      post.whoLikes = post.whoLikes.filter((whoLike) => whoLike !== userId);
+      const data = {
+        likes: post.likes,
+        whoLikes: post.whoLikes,
+      };
+      axios
+        .patch(url, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addLikeOrDeleteLike(post) {
+      if (post.isLikeClicked) {
+        this.deleteLike(post);
+      } else {
+        this.addLike(post);
+      }
+    },
+    addComment(post) {
+      const myUserId = this.myUserInformation._id;
+      const postId = post._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/postAddComment/${postId}`;
+      const data = {
+        user: myUserId,
+        content: post.comment.text,
+      };
+      axios
+        .post(url, data)
+        .then((res) => {
+          console.log(res.data.data);
+          this.addCommentNum(post);
+          // eslint-disable-next-line no-param-reassign
+          this.getPosts();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addCommentNum(post_) {
+      const post = post_;
+      post.comments += 1;
+      const postId = post._id;
+      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const data = {
+        comments: post.comments,
+      };
+      axios
+        .patch(url, data)
+        .then(() => {
+          console.log('addCommentNum Success!!!!');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    deletePost(post) {
+      this.isLikeClicked = true;
+      const id = post._id;
+      const url = `http://blooming-sands-85089.herokuapp.com/posts/${id}`;
+      axios
+        .delete(url)
+        .then(() => {
+          this.getPosts();
         })
         .catch((err) => {
           console.log(err);
@@ -323,7 +492,7 @@ export default {
 .my-Personal-Wall {
   margin-left: 0em;
   // height: 35.8em;
-  height: 38em;
+  height: 100%;
   // padding-right: 2%;
   padding-bottom: 0;
 }
@@ -497,6 +666,10 @@ export default {
   padding-left: 1em;
   line-height: 0.6pt;
 }
+.post-edit-div {
+  padding-top: -2em;
+  padding-left: 20em;
+}
 .content {
   padding-left: 0.3em;
 }
@@ -518,12 +691,16 @@ img {
   border-radius: 8pt;
 }
 .post_4 {
+  display: flex;
   width: 98.2%;
   height: auto;
   padding-bottom: 0;
   padding-left: 0.3em;
   margin-top: 1em;
   display: flex;
+}
+.thumbs-up-A {
+  margin-top: -1.3em;
 }
 .post_5 {
   display: flex;
@@ -563,20 +740,60 @@ img {
   border: black solid;
   color: black;
 }
-.post_6 {
+.pos_6 {
+  margin-left: 0.3em;
+  width: 93.5%;
+  // border: black solid;
   border-radius: 1.1em;
   background: #faf9f8;
   padding-bottom: 1.1em;
-  padding-left: 1.5em;
+  // padding-left: 1.5em;
   padding-top: 1.5em;
   margin-top: 1em;
   vertical-align: middle;
   align-items: center;
 }
+.pos_6_HeadName {
+  height: auto;
+  display: flex;
+  align-items: center;
+  margin-left: 1.8em;
+}
 .postComment {
-  padding-left: 4.8em;
+  padding-left: 6.5em;
 }
 .postComment > h4 {
   margin-top: 1.3em;
+}
+// dropDown
+.dropDown-List {
+  cursor: pointer;
+  width: 6em;
+  z-index: 100;
+  background-color: #ffffff;
+  border: black solid;
+  position: absolute;
+  margin-left: -4.5em;
+  margin-top: 0em;
+  text-align: center;
+}
+.dropDown-List {
+  padding-inline-start: 0px;
+}
+.dropDown-List li {
+  padding: 0.1em;
+  list-style-type: none;
+  margin-bottom: 13px;
+  vertical-align: middle;
+  line-height: 2em;
+  margin: 0;
+  color: black;
+  font-family: 'Paytone One', sans-serif;
+}
+
+.dropDown-List li:hover {
+  box-sizing: border-box;
+  width: 100%;
+  background: #efece7;
 }
 </style>
