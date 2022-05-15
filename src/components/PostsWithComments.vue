@@ -34,9 +34,36 @@
             <h5>{{ post.createAt }}</h5>
           </div>
           <div class="post-edit-div">
-            <a type="button" class="post-edit-A" href="#" @click.prevent="">
+            <!-- @blur="
+                {
+                  isDropDown = false;
+                }setTimeout(()=>{
+                    post.isDropDown = false;
+                  }, 20);
+              " -->
+            <a
+              type="button"
+              class="post-edit-A"
+              href="#"
+              @click.prevent="
+                {
+                  post.isDropDown = !isDropDown;
+                }
+              "
+              @blur="closeDropDown(post)"
+            >
               <div class="post-edit-btn"><unicon name="ellipsis-h" fill="black"></unicon></div
             ></a>
+            <transition name="fade" class="dropDown-List" v-if="post.isDropDown">
+              <ul class="dropDonw-List-Ul">
+                <a type="button" class="" href="#" @click.prevent="deletePost(post)">
+                  <li style="">刪除</li>
+                </a>
+                <a type="button" class="" href="#" @click.prevent="">
+                  <li style="">編輯</li>
+                </a>
+              </ul>
+            </transition>
           </div>
         </div>
         <div class="pos_2 content">
@@ -124,19 +151,19 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      myUserInformation: {},
-      myUserId: '6277d49f5b11695971e06846', // 主使用者
-      posts: [],
-      imgs: [
-        'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
-      ],
-      isLoading: false,
-      searchText: '',
-      sortBy: 'newest',
-      isLikeClicked: false,
       comment: {
         text: '',
       },
+      imgs: [
+        'https://images.unsplash.com/photo-1518805660775-eb21eab50e1e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
+      ],
+      searchText: '',
+      sortBy: 'newest',
+      isLikeClicked: false,
+      isLoading: false,
+      myUserInformation: {},
+      myUserId: '6277d49f5b11695971e06846', // 主使用者
+      posts: [],
     };
   },
   mounted() {
@@ -144,6 +171,12 @@ export default {
     this.getPosts();
   },
   methods: {
+    closeDropDown(post) {
+      setTimeout(() => {
+        // eslint-disable-next-line no-param-reassign
+        post.isDropDown = false;
+      }, 5);
+    },
     getMyUserInformation() {
       const id = '6277d49f5b11695971e06846'; // 主使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
@@ -177,6 +210,8 @@ export default {
             post.isLikeClicked = post.whoLikes.includes(this.myUserId);
             // eslint-disable-next-line no-param-reassign
             post.comment = { text: '' };
+            // eslint-disable-next-line no-param-reassign
+            post.isDropDown = false;
           });
           setTimeout(() => {
             this.isLoading = false;
@@ -291,6 +326,18 @@ export default {
         .patch(url, data)
         .then(() => {
           console.log('addCommentNum Success!!!!');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    deletePost(post) {
+      const id = post._id;
+      const url = `http://blooming-sands-85089.herokuapp.com/posts/${id}`;
+      axios
+        .delete(url)
+        .then(() => {
+          this.getPosts();
         })
         .catch((err) => {
           console.log(err);
@@ -539,5 +586,37 @@ img {
 }
 .postComment > h4 {
   margin-top: 1.3em;
+}
+// dropDown
+.dropDown-List {
+  cursor: pointer;
+  //   border-radius: 0.5em;
+  width: 6em;
+  z-index: 100;
+  background-color: #ffffff;
+  border: black solid;
+  position: absolute;
+  margin-left: -4.5em;
+  margin-top: 0em;
+  text-align: center;
+}
+.dropDown-List {
+  padding-inline-start: 0px;
+}
+.dropDown-List li {
+  padding: 0.1em;
+  list-style-type: none;
+  margin-bottom: 13px;
+  vertical-align: middle;
+  line-height: 2em;
+  margin: 0;
+  color: black;
+  font-family: 'Paytone One', sans-serif;
+}
+
+.dropDown-List li:hover {
+  box-sizing: border-box;
+  width: 100%;
+  background: #efece7;
 }
 </style>
