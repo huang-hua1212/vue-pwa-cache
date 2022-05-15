@@ -254,7 +254,6 @@ export default {
         content: this.searchText,
       };
       const url = 'https://blooming-sands-85089.herokuapp.com/posts-by-content';
-      // const url = 'http://localhost:3000/posts-by-content';
       axios
         .post(url, data)
         .then((res) => {

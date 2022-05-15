@@ -103,11 +103,6 @@ export default {
       data.append('type', 'person');
       data.append('image', this.imgFile);
       data.append('content', this.textContent);
-      // console.log(data);
-      // console.log(data.get('image'));
-      // 'https://all-the-cors.herokuapp.com/http://blooming-sands-85089.herokuapp.com/posts'
-      // http://blooming-sands-85089.herokuapp.com/posts
-      // http://localhost:3000/posts
       axios
         .post('https://blooming-sands-85089.herokuapp.com/posts-with-FormDataImage', data)
         .then(() => {
