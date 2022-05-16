@@ -138,10 +138,11 @@ a {
   /* foricon */
   vertical-align: middle;
   text-align: center;
-}
-.circleBorder {
   background: #e2edfa;
 }
+/* .circleBorder {
+  background: #e2edfa;
+} */
 .posterName {
   padding-left: 1em;
   line-height: 0.6pt;

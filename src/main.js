@@ -8,18 +8,17 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 // Vue Unicon
 import Unicon from 'vue-unicons';
 import {
-  uniBell, uniThumbsUp, uniSearch, uniEllipsisH,
+  uniBell, uniThumbsUp, uniSearch, uniEllipsisH, uniEstate, uniPlus,
 } from 'vue-unicons/dist/icons';
 
 import App from './App.vue';
 import router from './router';
 
 // temp Unicon
-Unicon.add([uniBell, uniThumbsUp, uniSearch, uniEllipsisH]);
+Unicon.add([uniBell, uniThumbsUp, uniSearch, uniEllipsisH, uniEstate, uniPlus]);
 // temp fontawesom
 library.add(fas);
 
-// const app = createApp(App).use(router);
 const app = createApp(App);
 app.use(router);
 app.use(Unicon);

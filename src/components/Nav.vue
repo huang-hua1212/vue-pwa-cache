@@ -97,10 +97,6 @@ export default {
         .then((res) => {
           const userProfile = res.data.datas;
           this.headImg = userProfile.photo;
-          // this.imgs = [];
-          // this.imgs.push(userProfile.photo);
-          // this.nickName = userProfile.name;
-          // this.sex = userProfile.sex;
         })
         .catch((err) => {
           console.dir(err);
@@ -155,12 +151,12 @@ a {
   font-family: 'Paytone One', sans-serif;
   font-weight: bold;
 }
-//record shop dropdown
+//post-edit dropdown start
 .dropDown-List {
   cursor: pointer;
   //   border-radius: 0.5em;
   width: 12em;
-  z-index: 100;
+  z-index: 201;
   background-color: #ffffff;
   border: black solid;
   position: absolute;
@@ -176,7 +172,7 @@ a {
   margin-left: 0.5em;
   position: absolute;
   border: black solid;
-  z-index: 80;
+  z-index: 200;
 }
 .navRight-Name-A:hover ~ .dropDown-List,
 .dropDown-List-Under {
@@ -198,4 +194,5 @@ a {
 .dropDown-List .last {
   border-bottom: none;
 }
+// post-edit dropDown list end
 </style>

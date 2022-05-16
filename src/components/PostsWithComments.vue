@@ -401,10 +401,6 @@ export default {
   }
 }
 // progress bar end
-// .posts {
-//   margin-left: 0em;
-//   width: 60%;
-// }
 // search start
 .search-Div {
   display: flex;
@@ -451,10 +447,8 @@ export default {
   border-top: black solid;
   border-right: black solid;
   border-bottom: black solid;
-  // border-left: black solid;
 }
 .search-Unicon {
-  // margin-left: 0.5em;
   margin-top: 0.3em;
 }
 // search end
@@ -491,8 +485,11 @@ export default {
   line-height: 0.6pt;
 }
 .post-edit-div {
-  padding-top: -2em;
-  padding-left: 20em;
+  // padding-top: -2em;
+  // padding-left: 20em;
+  margin-top: -2em;
+  margin-left: auto;
+  margin-right: 1.6em;
 }
 .content {
   padding-left: 0.3em;

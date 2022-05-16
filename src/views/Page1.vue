@@ -1,15 +1,19 @@
 <template>
   <div class="background">
-    <!-- <nav class="nav"></nav> -->
     <div class="page1Content">
-      <!-- <post class="posts"></post> -->
       <router-view class="postsShow" @changeUserProfile="changeUserProfile"></router-view>
       <personal-sidebar class="personal-sidebar" ref="personalSidebar"></personal-sidebar>
+      <!-- device -->
+      <personal-sidebar-phone-device
+        class="personal-sidebar-phoneDevice"
+        ref="personalSidebar"
+      ></personal-sidebar-phone-device>
     </div>
   </div>
 </template>
 <script>
 import PersonalSidebar from '@/components/PersonalSidebar.vue';
+import PersonalSidebarPhoneDevice from '@/components/PersonalSidebarPhoneDevice.vue';
 
 export default {
   data() {
@@ -17,6 +21,7 @@ export default {
   },
   components: {
     PersonalSidebar,
+    PersonalSidebarPhoneDevice,
   },
   created() {},
   methods: {
@@ -42,11 +47,38 @@ export default {
 .postsShow {
   width: 60%;
   margin-top: 20pt;
-//   margin-right: 1em;
 }
 .personal-sidebar {
   width: 38%;
   margin-left: 2em;
   margin-top: 20pt;
 }
+.personal-sidebar-phoneDevice {
+  display: none;
+}
+// device RWD start
+@media screen and (max-device-width: 75em) {
+  .page1Content {
+    display: block;
+    margin-left: 7.5%;
+    width: 85%;
+  }
+  // 左邊變100%
+  .postsShow {
+    width: 100%;
+    margin-top: 20pt;
+  }
+  .personal-sidebar {
+    display: none;
+  }
+  .personal-sidebar-phoneDevice {
+    display: flex;
+    height: auto;
+    position: fixed;
+    max-width: 85%;
+    left: 7.4%;
+    top: 80%;
+  }
+}
+// device RWD end
 </style>

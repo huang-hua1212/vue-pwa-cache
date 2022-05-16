@@ -667,8 +667,11 @@ export default {
   line-height: 0.6pt;
 }
 .post-edit-div {
-  padding-top: -2em;
-  padding-left: 20em;
+  // padding-top: -2em;
+  // padding-left: 20em;
+  margin-top: -2em;
+  margin-left: auto;
+  margin-right: 1.6em;
 }
 .content {
   padding-left: 0.3em;
