@@ -195,4 +195,12 @@ a {
   border-bottom: none;
 }
 // post-edit dropDown list end
+@media screen and (max-device-width: 75em) {
+  .navBar-Div {
+    display: flex;
+    width: 85%;
+    margin-left: 7.5%;
+    //   vertical-align: middle;
+  }
+}
 </style>

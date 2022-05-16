@@ -64,6 +64,7 @@ export default {
   z-index: 201;
   vertical-align: middle;
   text-align: center;
+  background: #EFECE7;
 }
 .sidebar {
   /* padding not affect size */
