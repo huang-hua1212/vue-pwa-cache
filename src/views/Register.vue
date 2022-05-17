@@ -33,13 +33,14 @@ export default {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding-top: 10%;
+  // padding-bottom: 0%;
 }
 .box {
   border: black solid;
   display: flex;
   margin-left: 20%;
   width: 60%;
-  height: 70%;
+  height: 26.5em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
