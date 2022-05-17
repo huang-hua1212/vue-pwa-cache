@@ -1,0 +1,188 @@
+<template>
+  <div class="background">
+    <div class="box">
+      <div class="LeftImg"><img src="../../svg/img.svg" alt="Loading..." /></div>
+      <div class="RightForm">
+        <div class="title"><h>MetalWall</h></div>
+        <div class="subTitle"><h>到元宇宙展開全新社團</h></div>
+        <form>
+          <div class="email-div">
+            <input
+              type="email"
+              class="email-input"
+              v-model="email"
+              placeholder="Email"
+              @keyup.prevent="isBtnSendOutActive()"
+            />
+          </div>
+          <div class="password-div">
+            <input
+              type="password"
+              class="password-input"
+              v-model="password"
+              placeholder="Password"
+              @keyup.prevent="isBtnSendOutActive()"
+            />
+          </div>
+          <div class="btn-OuterDiv">
+            <a
+              type="button"
+              :class="{ 'sendOutA-Active': isSendOutActive }"
+              class="sendOutA"
+              href="#"
+              @click.prevent=""
+              ><div class="sendOutBtn-Div" :class="{ 'sendOutBtn-Div-Active': isSendOutActive }">
+                登入
+              </div></a
+            >
+          </div>
+        </form>
+        <div class="btn-register-div">
+          <a class="btn-register-a" type="button" href="#" @click.prevent="">註冊帳號</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      isSendOutActive: false,
+      email: '',
+      password: '',
+    };
+  },
+  created() {},
+  methods: {
+    isBtnSendOutActive() {
+      if (this.email && this.password) {
+        this.isSendOutActive = true;
+      } else {
+        this.isSendOutActive = false;
+      }
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+@media screen and (min-device-width: 87.5em) {
+  @import url('https://fonts.googleapis.com/css2?family=Paytone+One&display=swap');
+
+  .background {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #efece7;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-top: 6%;
+  }
+  .box {
+    border: black solid;
+    display: flex;
+    // margin-left: 20%;
+    // width: 60%;
+    width: auto;
+    height: 30em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 3%;
+    padding-top: 3%;
+    padding-bottom: -3%;
+  }
+  .LeftImg {
+    margin-top: 1.5em;
+  }
+  .RightForm {
+    margin-left: 7.5%;
+    text-align: center;
+    width: 45.8%;
+    height: 90%;
+  }
+  .title > h {
+    font-size: 3.75em;
+    font-family: 'Paytone One', sans-serif;
+    font-weight: bold;
+  }
+  .subTitle > h {
+    font-size: 1.1em;
+    font-family: 'Paytone One', sans-serif;
+    font-weight: bold;
+  }
+  .email-div {
+    width: 97.5%;
+    margin-top: 9%;
+  }
+  .email-div input {
+    border: black solid;
+    width: 100%;
+    height: 2em;
+    // padding: 0.2em;
+    padding-left: 0.2em;
+    font-size: 1.2em;
+    // 0517 add
+    box-sizing:border-box;
+    // end
+  }
+  .password-div {
+    width: 97.5%;
+    margin-top: 5%;
+  }
+  .password-div input {
+    // 0517 add start
+    box-sizing:border-box;
+    // end
+    border: black solid;
+    width: 100%;
+    height: 2em;
+    // padding: 0.2em;
+    padding-left: 0.2em;
+    font-size: 1.2em;
+  }
+  .btn-OuterDiv {
+    // margin-top: 12%;
+    margin-bottom: 0;
+  }
+  a {
+    text-decoration: none;
+  }
+  .sendOutA {
+    pointer-events: none;
+  }
+  .sendOutBtn-Div {
+    background: #a8b0b9;
+    border: #808080 solid;
+    border-radius: 0.5em;
+    // box-shadow: -0.2em 0.2em 0em 0 black;
+    color: white;
+    padding-top: 2.8%;
+    padding-bottom: 2.8%;
+    text-align: center;
+    font-size: 1.1em;
+  }
+  .sendOutA-Active {
+    pointer-events: auto;
+  }
+  .sendOutBtn-Div-Active {
+    background: #03438d;
+    border: black solid;
+    border-radius: 0.5em;
+    box-shadow: -0.2em 0.2em 0em 0 black;
+    color: white;
+    padding-top: 2.8%;
+    padding-bottom: 2.8%;
+    text-align: center;
+    font-size: 1.1em;
+  }
+  .btn-register-div {
+    margin-top: 0.5em;
+  }
+  .btn-register-div a {
+    color: black;
+  }
+}
+</style>
