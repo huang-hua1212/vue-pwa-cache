@@ -237,7 +237,7 @@ export default {
       }
     },
     getMyUserInformation() {
-      const id = '6277d49f5b11695971e06846'; // 主使用者
+      const id = this.myUserId; // 主使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
       axios
@@ -318,14 +318,41 @@ export default {
       }
     },
     searchByText() {
+      this.isLoading = true;
+      const url = `https://blooming-sands-85089.herokuapp.com/posts-by-userId/${this.userId}`;
       const data = {
         content: this.searchText,
       };
-      const url = 'https://blooming-sands-85089.herokuapp.com/posts-by-content';
       axios
         .post(url, data)
-        .then((res) => {
+        .then(async (res) => {
+          res.data.datas.forEach((post) => {
+            // eslint-disable-next-line no-param-reassign
+            post.createdAt_Original = post.createdAt;
+            const [first] = post.createdAt.split('T');
+            // eslint-disable-next-line no-param-reassign
+            post.createdAt = first;
+          });
           this.posts = res.data.datas;
+          this.sort();
+          await this.posts.forEach(async (post) => {
+            // eslint-disable-next-line no-param-reassign
+            post.isLikeClicked = post.whoLikes.includes(this.myUserId);
+            await post.commentDetail.forEach((comment) => {
+              // eslint-disable-next-line no-param-reassign
+              comment.updatedAt_Original = post.updatedAt;
+              const [first] = comment.updatedAt.split('T');
+              // eslint-disable-next-line no-param-reassign
+              comment.updatedAt = first;
+            });
+            // eslint-disable-next-line no-param-reassign
+            post.comment = { text: '' };
+            // eslint-disable-next-line no-param-reassign
+            post.isDropDown = false;
+          });
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 1500);
         })
         .catch((err) => {
           console.log(err);

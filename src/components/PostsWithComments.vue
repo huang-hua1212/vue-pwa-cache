@@ -188,7 +188,7 @@ export default {
       const url = 'https://blooming-sands-85089.herokuapp.com/posts';
       axios
         .get(url)
-        .then((res) => {
+        .then(async (res) => {
           res.data.datas.forEach((post) => {
             // eslint-disable-next-line no-param-reassign
             post.createdAt_Original = post.createdAt;
@@ -198,7 +198,7 @@ export default {
           });
           this.posts = res.data.datas;
           this.sort();
-          this.posts.forEach(async (post) => {
+          await this.posts.forEach(async (post) => {
             // eslint-disable-next-line no-param-reassign
             post.isLikeClicked = post.whoLikes.includes(this.myUserId);
             await post.commentDetail.forEach((comment) => {
@@ -229,14 +229,41 @@ export default {
       }
     },
     searchByText() {
+      this.isLoading = true;
       const data = {
         content: this.searchText,
       };
       const url = 'https://blooming-sands-85089.herokuapp.com/posts-by-content';
       axios
         .post(url, data)
-        .then((res) => {
+        .then(async (res) => {
+          res.data.datas.forEach((post) => {
+            // eslint-disable-next-line no-param-reassign
+            post.createdAt_Original = post.createdAt;
+            const [first] = post.createdAt.split('T');
+            // eslint-disable-next-line no-param-reassign
+            post.createdAt = first;
+          });
           this.posts = res.data.datas;
+          this.sort();
+          await this.posts.forEach(async (post) => {
+            // eslint-disable-next-line no-param-reassign
+            post.isLikeClicked = post.whoLikes.includes(this.myUserId);
+            await post.commentDetail.forEach((comment) => {
+              // eslint-disable-next-line no-param-reassign
+              comment.updatedAt_Original = post.updatedAt;
+              const [first] = comment.updatedAt.split('T');
+              // eslint-disable-next-line no-param-reassign
+              comment.updatedAt = first;
+            });
+            // eslint-disable-next-line no-param-reassign
+            post.comment = { text: '' };
+            // eslint-disable-next-line no-param-reassign
+            post.isDropDown = false;
+          });
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 1500);
         })
         .catch((err) => {
           console.log(err);
