@@ -67,7 +67,7 @@ export default {
   font-weight: bold;
 }
 .email-div {
-  width: 98%;
+  width: 97.5%;
   margin-top: 9%;
 }
 .email-div input {
@@ -76,7 +76,7 @@ export default {
   padding: 0.2em
 }
 .password-div {
-  width: 98%;
+  width: 97.5%;
   margin-top: 5%;
 }
 .password-div input {
