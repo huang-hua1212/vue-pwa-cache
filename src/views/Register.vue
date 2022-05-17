@@ -50,13 +50,13 @@ export default {
   margin-top: 1.5em;
 }
 .RightForm {
-  margin-left: 13%;
-  border: black solid;
+  margin-left: 7.5%;
+  // border: black solid;
   text-align: center;
-  width: 40%;
+  width: 45.8%;
 }
 .title > h {
-  font-size: 3em;
+  font-size: 3.75em;
   font-family: 'Paytone One', sans-serif;
   font-weight: bold;
 }
