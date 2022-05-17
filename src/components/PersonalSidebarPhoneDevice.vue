@@ -47,12 +47,32 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {};
   },
-  created() {},
-  methods: {},
+  created() {
+    this.getUserInformation();
+  },
+  methods: {
+    getUserInformation() {
+      const id = '6277d49f5b11695971e06846';
+      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+
+      axios
+        .get(url)
+        .then((res) => {
+          const userProfile = res.data.datas;
+          this.headImg = userProfile.photo;
+          this.name = userProfile.name;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -64,7 +84,7 @@ export default {
   z-index: 201;
   vertical-align: middle;
   text-align: center;
-  background: #EFECE7;
+  background: #efece7;
 }
 .sidebar {
   /* padding not affect size */

@@ -1,19 +1,17 @@
 <template>
-  <!-- <div id="nav">
-  </div> -->
-  <Nav class="nav"></Nav>
+  <!-- <Nav class="nav"></Nav> -->
   <router-view class="app"/>
 </template>
 <script>
-import Nav from '@/components/Nav.vue';
+// import Nav from '@/components/Nav.vue';
 
 export default {
   data() {
     return {};
   },
-  components: {
-    Nav,
-  },
+  // components: {
+  //   Nav,
+  // },
   created() {},
   methods: {},
 };

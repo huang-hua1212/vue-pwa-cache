@@ -16,7 +16,7 @@
             placeholder="搜尋貼文"
           />
           <a type="button" class="search-Btn" href="#" @click.prevent="searchByText()">
-            <div class="search-Unicon"><unicon name="search" fill="white"></unicon></div
+            <div class="search-Unicon"><unicon name="search" :fill='["white"]'></unicon></div
           ></a>
         </div>
       </div>
@@ -45,7 +45,7 @@
               "
               @blur="closeDropDown(post)"
             >
-              <div class="post-edit-btn"><unicon name="ellipsis-h" fill="black"></unicon></div
+              <div class="post-edit-btn"><unicon name="ellipsis-h" :fill="['black']"></unicon></div
             ></a>
             <transition name="fade" class="dropDown-List" v-if="post.isDropDown">
               <ul class="dropDonw-List-Ul">
@@ -179,7 +179,7 @@ export default {
         .then((res) => {
           const { _id, photo } = res.data.datas;
           this.myUserInformation = { _id, photo };
-          return this.getUserInformation();
+          // return this.getUserInformation();
         })
         .catch(() => {});
     },
@@ -215,7 +215,7 @@ export default {
           });
           setTimeout(() => {
             this.isLoading = false;
-          }, 1500);
+          }, 20);
         })
         .catch((err) => {
           console.dir(err);
@@ -263,7 +263,7 @@ export default {
           });
           setTimeout(() => {
             this.isLoading = false;
-          }, 1500);
+          }, 20);
         })
         .catch((err) => {
           console.log(err);

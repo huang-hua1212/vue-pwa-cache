@@ -304,7 +304,7 @@ export default {
           });
           setTimeout(() => {
             this.isLoading = false;
-          }, 1500);
+          }, 20);
         })
         .catch((err) => {
           console.dir(err);
@@ -352,7 +352,7 @@ export default {
           });
           setTimeout(() => {
             this.isLoading = false;
-          }, 1500);
+          }, 20);
         })
         .catch((err) => {
           console.log(err);

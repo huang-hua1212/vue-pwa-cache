@@ -1,4 +1,5 @@
 <template>
+  <Nav class="nav"></Nav>
   <div class="background">
     <div class="page1Content">
       <router-view class="postsShow" @changeUserProfile="changeUserProfile"></router-view>
@@ -12,6 +13,7 @@
   </div>
 </template>
 <script>
+import Nav from '@/components/Nav.vue';
 import PersonalSidebar from '@/components/PersonalSidebar.vue';
 import PersonalSidebarPhoneDevice from '@/components/PersonalSidebarPhoneDevice.vue';
 
@@ -22,6 +24,7 @@ export default {
   components: {
     PersonalSidebar,
     PersonalSidebarPhoneDevice,
+    Nav,
   },
   created() {},
   methods: {
