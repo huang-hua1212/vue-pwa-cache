@@ -42,15 +42,15 @@
           "
         >
           <ul class="dropDonw-List-Ul">
-            <router-link :to="`/personal-wall/6277d49f5b11695971e06846`">
+            <router-link :to="`/personal-wall/${myUserId}`">
               <li style="">我的貼文牆</li>
             </router-link>
             <router-link to="/modify-personal-profile">
               <li>修改個人資料</li>
             </router-link>
-            <router-link to="">
+            <a type="button" href="#" @click.prevent="logout()">
               <li class="last">登出</li>
-            </router-link>
+            </a>
           </ul>
         </transition>
         <transition
@@ -82,14 +82,33 @@ export default {
     return {
       headImg: '',
       isDropDown: false,
+      myUserId: '',
     };
   },
   created() {
-    this.getUserInformation();
+    this.userTokenCheck(this.getUserInformation);
+    // this.getUserInformation();
   },
   methods: {
+    userTokenCheck(next) {
+      const url = `${process.env.VUE_APP_API}/user/auth-check`;
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      const bearerToken = `Bearer ${token}`;
+      axios.defaults.headers.common.Authorization = bearerToken;
+      axios
+        .post(url)
+        .then((res) => {
+          this.myUserId = res.data.userId;
+          if (next !== undefined) {
+            next();
+          }
+        })
+        .catch(() => {
+          this.$router.push('/login');
+        });
+    },
     getUserInformation() {
-      const id = '6277d49f5b11695971e06846';
+      const id = this.myUserId;
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
 
       axios
@@ -100,6 +119,21 @@ export default {
         })
         .catch((err) => {
           console.dir(err);
+        });
+    },
+    logout() {
+      const url = `${process.env.VUE_APP_API}/user/logout`;
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      const bearerToken = `Bearer ${token}`;
+      axios.defaults.headers.common.Authorization = bearerToken;
+      axios
+        .post(url)
+        .then((res) => {
+          console.log(res);
+          this.$router.push('/login');
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },

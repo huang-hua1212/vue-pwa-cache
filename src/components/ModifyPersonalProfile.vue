@@ -167,17 +167,37 @@ export default {
       firstPassword: '',
       secondPassword: '',
       isLoading: false,
+      myUserId: '',
     };
   },
   created() {
-    this.getUserInformation();
+    this.userTokenCheck(this.getUserInformation);
+    // this.getUserInformation();
   },
   methods: {
+    userTokenCheck(next) {
+      const url = `${process.env.VUE_APP_API}/user/auth-check`;
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      const bearerToken = `Bearer ${token}`;
+      axios.defaults.headers.common.Authorization = bearerToken;
+      axios
+        .post(url)
+        .then((res) => {
+          this.myUserId = res.data.userId;
+          if (next !== undefined) {
+            next();
+          }
+        })
+        .catch(() => {
+          this.$router.push('/login');
+        });
+    },
     getUserInformation() {
-      const id = '6277d49f5b11695971e06846'; // 主使用者
+      this.isLoading = true;
+      const id = this.myUserId; // 主使用者
       // const id = '627a2742b2af092f54100b44'; // 客使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 客使用者
-      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `${process.env.VUE_APP_API}/user/${id}`;
 
       axios
         .get(url)
@@ -187,6 +207,7 @@ export default {
           this.imgs.push(userProfile.photo);
           this.nickName = userProfile.name;
           this.sex = userProfile.sex;
+          this.isLoading = false;
         })
         .catch((err) => {
           console.dir(err);
@@ -202,13 +223,10 @@ export default {
     },
     firstTabUpdateUserInformation_ByUrlImage() {
       this.isLoading = true;
-      const id = '6277d49f5b11695971e06846';
+      const id = this.myUserId;
+      // const id = '6277d49f5b11695971e06846'; // 主使用者
       //  const id = '627a2742b2af092f54100b44'; // 客使用者
-      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
-      // const data = new FormData();
-      // data.append('name', this.nickName);
-      // data.append('photo', this.imgs[0]);
-      // data.append('sex', this.sex);
+      const url = `${process.env.VUE_APP_API}/user/${id}`;
       const data = {
         name: this.nickName,
         photo: this.imgs[0],
@@ -227,10 +245,11 @@ export default {
     },
     firstTabUpdateUserInformation_ByFormDataImage() {
       this.isLoading = true;
-      const id = '6277d49f5b11695971e06846';
+      const id = this.myUserId;
+      // const id = '6277d49f5b11695971e06846';  // 主使用者
       // const id = '627a2742b2af092f54100b44'; // 客使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 客使用者
-      const url = `https://blooming-sands-85089.herokuapp.com/user-with-FormDataImage/${id}`;
+      const url = `${process.env.VUE_APP_API}/user-with-FormDataImage/${id}`;
       const data = new FormData();
       data.append('name', this.nickName);
       data.append('photo', this.imgFile);
@@ -274,8 +293,9 @@ export default {
     secondTabUpdateUserInformation() {
       this.isLoading = true;
 
-      const id = '6277d49f5b11695971e06846';
-      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const id = this.myUserId;
+      // const id = '6277d49f5b11695971e06846'; // 主使用者
+      const url = `${process.env.VUE_APP_API}/user/${id}`;
       const data = {
         password: this.secondPassword,
       };

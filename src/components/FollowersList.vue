@@ -30,6 +30,11 @@
         </div>
       </div>
     </div>
+    <!--  PROGRESS BAR 1 --- Loading PAGE -->
+    <div v-show="isLoading" class="loadingBackground"></div>
+    <div v-show="isLoading" class="loading">
+      <div class="lds-circle"><div></div></div>
+    </div>
   </div>
 </template>
 <script>
@@ -39,12 +44,32 @@ export default {
   data() {
     return {
       userProfile: {},
+      myUserId: '',
+      isLoading: false,
     };
   },
   created() {
-    this.getUserInformation();
+    this.userTokenCheck(this.getUserInformation);
+    // this.getUserInformation();
   },
   methods: {
+    userTokenCheck(next) {
+      const url = `${process.env.VUE_APP_API}/user/auth-check`;
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      const bearerToken = `Bearer ${token}`;
+      axios.defaults.headers.common.Authorization = bearerToken;
+      axios
+        .post(url)
+        .then((res) => {
+          this.myUserId = res.data.userId;
+          if (next !== undefined) {
+            next();
+          }
+        })
+        .catch(() => {
+          this.$router.push('/login');
+        });
+    },
     getNumberOfDays(start, end) {
       const date1 = new Date(start);
       const date2 = new Date(end);
@@ -55,7 +80,8 @@ export default {
       return diffInDays;
     },
     getUserInformation() {
-      const id = '6277d49f5b11695971e06846'; // 主使用者
+      this.isLoading = false;
+      const id = this.myUserId; // 主使用者
       // const id = '627a2742b2af092f54100b44'; // 客使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
 
@@ -73,7 +99,9 @@ export default {
           });
           const userProfile = res.data.datas;
           this.userProfile = userProfile;
-          console.log(this.userProfile);
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 20);
         })
         .catch((err) => {
           console.dir(err);

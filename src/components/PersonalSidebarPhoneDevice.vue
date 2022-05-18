@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <div class="btn-1">
-      <router-link to="/modify-personal-profile"
+      <router-link to="/posts-with-comments"
         ><div class="circleBorder">
           <unicon
             class="estate"
@@ -12,7 +12,7 @@
       ></router-link>
     </div>
     <div class="btn-2">
-      <router-link to="/modify-personal-profile"
+      <router-link to="/followers-list"
         ><div class="circleBorder">
           <unicon
             class="bellIcon"
@@ -23,7 +23,7 @@
       ></router-link>
     </div>
     <div class="btn-3">
-      <router-link to="/followers-list"
+      <router-link to="/likes-list"
         ><div class="circleBorder">
           <unicon
             class="thumbsUpIcon"
@@ -34,7 +34,7 @@
       ></router-link>
     </div>
     <div class="btn-4">
-      <router-link to="/likes-list"
+      <router-link to="/create-post"
         ><div class="circleBorder plusIcon-Div">
           <unicon
             class="plusIcon"

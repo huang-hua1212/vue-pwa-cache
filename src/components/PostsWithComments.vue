@@ -16,7 +16,7 @@
             placeholder="搜尋貼文"
           />
           <a type="button" class="search-Btn" href="#" @click.prevent="searchByText()">
-            <div class="search-Unicon"><unicon name="search" :fill='["white"]'></unicon></div
+            <div class="search-Unicon"><unicon name="search" :fill="['white']"></unicon></div
           ></a>
         </div>
       </div>
@@ -155,15 +155,33 @@ export default {
       // isLikeClicked: false,
       isLoading: false,
       myUserInformation: {},
-      myUserId: '6277d49f5b11695971e06846', // 主使用者
+      myUserId: '', // 主使用者
       posts: [],
     };
   },
   mounted() {
-    this.getMyUserInformation();
+    this.userTokenCheck(this.getMyUserInformation);
+    // this.getMyUserInformation();
     this.getPosts();
   },
   methods: {
+    userTokenCheck(next) {
+      const url = `${process.env.VUE_APP_API}/user/auth-check`;
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      const bearerToken = `Bearer ${token}`;
+      axios.defaults.headers.common.Authorization = bearerToken;
+      axios
+        .post(url)
+        .then((res) => {
+          this.myUserId = res.data.userId;
+          if (next !== undefined) {
+            next();
+          }
+        })
+        .catch(() => {
+          this.$router.push('/login');
+        });
+    },
     closeDropDown(post) {
       setTimeout(() => {
         // eslint-disable-next-line no-param-reassign
@@ -171,9 +189,10 @@ export default {
       }, 80);
     },
     getMyUserInformation() {
-      const id = '6277d49f5b11695971e06846'; // 主使用者
+      const id = this.myUserId; // 主使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
-      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `${process.env.VUE_APP_API}/user/${id}`;
+      console.log(url);
       axios
         .get(url)
         .then((res) => {
@@ -185,7 +204,7 @@ export default {
     },
     getPosts() {
       this.isLoading = true;
-      const url = 'https://blooming-sands-85089.herokuapp.com/posts';
+      const url = `${process.env.VUE_APP_API}/posts`;
       axios
         .get(url)
         .then(async (res) => {
@@ -273,7 +292,7 @@ export default {
       const post = post_;
       const userId = this.myUserId; // 主使用者
       const postId = post._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const url = `${process.env.VUE_APP_API}/posts/${postId}`;
       const postReassign = post;
       postReassign.likes += 1;
       post.isLikeClicked = true;
@@ -295,7 +314,7 @@ export default {
       const post = post_;
       const userId = this.myUserId; // 主使用者
       const postId = post._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const url = `${process.env.VUE_APP_API}/posts/${postId}`;
       const postReassign = post;
       postReassign.likes -= 1;
       post.isLikeClicked = false;
@@ -323,7 +342,7 @@ export default {
     addComment(post) {
       const myUserId = this.myUserInformation._id;
       const postId = post._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/postAddComment/${postId}`;
+      const url = `${process.env.VUE_APP_API}/postAddComment/${postId}`;
       const data = {
         user: myUserId,
         content: post.comment.text,
@@ -344,7 +363,7 @@ export default {
       const post = post_;
       post.comments += 1;
       const postId = post._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const url = `${process.env.VUE_APP_API}/posts/${postId}`;
       const data = {
         comments: post.comments,
       };
@@ -360,7 +379,7 @@ export default {
     deletePost(post) {
       this.isLoading = true;
       const id = post._id;
-      const url = `http://blooming-sands-85089.herokuapp.com/posts/${id}`;
+      const url = `${process.env.VUE_APP_API}/posts/${id}`;
       console.log('觸發刪除!!!!');
       axios
         .delete(url)

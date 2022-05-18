@@ -196,7 +196,7 @@ export default {
     },
     follow() {
       const myUserId = this.myUserInformation._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/userFollowing/${myUserId}`;
+      const url = `${process.env.VUE_APP_API}/userFollowing/${myUserId}`;
       const data = {
         user: this.userId,
         whoFollow: myUserId,
@@ -214,7 +214,7 @@ export default {
     },
     cancelFollow() {
       const myUserId = this.myUserInformation._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/userFollowing/${myUserId}`;
+      const url = `${process.env.VUE_APP_API}/userFollowing/${myUserId}`;
 
       const data = {
         _id: this.followingId,
@@ -239,7 +239,7 @@ export default {
     getMyUserInformation() {
       const id = this.myUserId; // 主使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
-      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `${process.env.VUE_APP_API}/user/${id}`;
       axios
         .get(url)
         .then((res) => {
@@ -251,7 +251,7 @@ export default {
     getUserInformation() {
       const { id } = this.$route.params;
       this.userId = id;
-      const url = `https://blooming-sands-85089.herokuapp.com/user/${this.userId}`;
+      const url = `${process.env.VUE_APP_API}/user/${this.userId}`;
       axios
         .get(url)
         .then((res) => {
@@ -274,7 +274,7 @@ export default {
       const { id } = this.$route.params;
       this.userId = id;
       this.isLoading = true;
-      const url = `https://blooming-sands-85089.herokuapp.com/posts-by-userId/${this.userId}`;
+      const url = `${process.env.VUE_APP_API}/posts-by-userId/${this.userId}`;
       axios
         .get(url)
         .then((res) => {
@@ -319,7 +319,7 @@ export default {
     },
     searchByText() {
       this.isLoading = true;
-      const url = `https://blooming-sands-85089.herokuapp.com/posts-by-userId/${this.userId}`;
+      const url = `${process.env.VUE_APP_API}/posts-by-userId/${this.userId}`;
       const data = {
         content: this.searchText,
       };
@@ -362,7 +362,7 @@ export default {
       const post = post_;
       const userId = this.myUserId; // 主使用者
       const postId = post._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const url = `${process.env.VUE_APP_API}/posts/${postId}`;
       const postReassign = post;
       postReassign.likes += 1;
       post.isLikeClicked = true;
@@ -384,7 +384,7 @@ export default {
       const post = post_;
       const userId = this.myUserId; // 主使用者
       const postId = post._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const url = `${process.env.VUE_APP_API}/posts/${postId}`;
       const postReassign = post;
       postReassign.likes -= 1;
       post.isLikeClicked = false;
@@ -412,7 +412,7 @@ export default {
     addComment(post) {
       const myUserId = this.myUserInformation._id;
       const postId = post._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/postAddComment/${postId}`;
+      const url = `${process.env.VUE_APP_API}/postAddComment/${postId}`;
       const data = {
         user: myUserId,
         content: post.comment.text,
@@ -433,7 +433,7 @@ export default {
       const post = post_;
       post.comments += 1;
       const postId = post._id;
-      const url = `https://blooming-sands-85089.herokuapp.com/posts/${postId}`;
+      const url = `${process.env.VUE_APP_API}/posts/${postId}`;
       const data = {
         comments: post.comments,
       };
@@ -449,7 +449,7 @@ export default {
     deletePost(post) {
       this.isLoading = true;
       const id = post._id;
-      const url = `http://blooming-sands-85089.herokuapp.com/posts/${id}`;
+      const url = `${process.env.VUE_APP_API}/posts/${id}`;
       axios
         .delete(url)
         .then(() => {

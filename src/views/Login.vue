@@ -29,8 +29,8 @@
               type="button"
               :class="{ 'sendOutA-Active': isSendOutActive }"
               class="sendOutA"
+              @click.prevent="login()"
               href="#"
-              @click.prevent=""
               ><div class="sendOutBtn-Div" :class="{ 'sendOutBtn-Div-Active': isSendOutActive }">
                 登入
               </div></a
@@ -45,6 +45,8 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -62,6 +64,23 @@ export default {
         this.isSendOutActive = false;
       }
     },
+    login() {
+      // TEST
+      const url = `${process.env.VUE_APP_API}/user/login`;
+      const data = {
+        username: this.email,
+        password: this.password,
+      };
+      axios
+        .post(url, data)
+        .then((res) => {
+          document.cookie = `hexToken=${res.data.token}; expired=${res.data.token_expiresAt};`;
+          this.$router.push('/posts-with-comments');
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
   },
 };
 </script>
@@ -69,6 +88,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Paytone+One&display=swap');
 
 .background {
+  word-break: break-all;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -82,27 +102,20 @@ export default {
 .box {
   border: black solid;
   display: flex;
-  // margin-left: 20%;
-  // width: 60%;
   width: auto;
-  height: 30em;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  // box-sizing: border-box;
+  height: 24em;
   padding-left: 3%;
   padding-right: 3%;
-  padding-top: 3%;
-  padding-bottom: -3%;
+  padding-top: 2%;
+  padding-bottom: 3%;
+  box-shadow: -8px 8px 0px #00040029;
 }
 .LeftImg {
   margin-top: 1.5em;
 }
 .RightForm {
-  // margin-left: 7.5%;
+  margin-left: 4em;
   text-align: center;
-  // width: 45.8%;
-  // height: 90%;
-  border: black solid;
 }
 .title > h {
   font-size: 3.75em;
@@ -115,38 +128,34 @@ export default {
   font-weight: bold;
 }
 .email-div {
-  // width: 97.5%;
   margin-top: 9%;
 }
 .email-div input {
   border: black solid;
   width: 100%;
   height: 2em;
-  // padding: 0.2em;
   padding-left: 0.2em;
   font-size: 1.2em;
-  // 0517 add
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
-  // end
 }
 .password-div {
-  // width: 97.5%;
   width: 100%;
   margin-top: 5%;
 }
 .password-div input {
-  // 0517 add start
-  box-sizing: border-box;
-  // end
   border: black solid;
   width: 100%;
   height: 2em;
-  // padding: 0.2em;
   padding-left: 0.2em;
   font-size: 1.2em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .btn-OuterDiv {
-  margin-top: 23%;
+  margin-top: 25%;
   margin-bottom: 0;
 }
 a {
@@ -159,7 +168,6 @@ a {
   background: #a8b0b9;
   border: #808080 solid;
   border-radius: 0.5em;
-  // box-shadow: -0.2em 0.2em 0em 0 black;
   color: white;
   padding-top: 2.8%;
   padding-bottom: 2.8%;
