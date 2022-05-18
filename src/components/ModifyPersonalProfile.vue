@@ -292,7 +292,6 @@ export default {
     },
     secondTabUpdateUserInformation() {
       this.isLoading = true;
-
       const id = this.myUserId;
       // const id = '6277d49f5b11695971e06846'; // 主使用者
       const url = `${process.env.VUE_APP_API}/user/${id}`;

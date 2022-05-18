@@ -175,7 +175,7 @@ export default {
       isLoading: false,
       isCancelFollowBtnActive: false,
       myUserInformation: {},
-      myUserId: '6277d49f5b11695971e06846', // 主使用者
+      myUserId: '', // 主使用者
       posts: [],
       sortBy: 'newest',
       searchText: '',
@@ -183,11 +183,29 @@ export default {
       userInformation: {},
     };
   },
-  created() {
-    this.getMyUserInformation();
+  mounted() {
+    this.userTokenCheck(this.getMyUserInformation);
+    // this.getMyUserInformation();
     this.getPosts();
   },
   methods: {
+    userTokenCheck(next) {
+      const url = `${process.env.VUE_APP_API}/user/auth-check`;
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      const bearerToken = `Bearer ${token}`;
+      axios.defaults.headers.common.Authorization = bearerToken;
+      axios
+        .post(url)
+        .then((res) => {
+          this.myUserId = res.data.userId;
+          if (next !== undefined) {
+            next();
+          }
+        })
+        .catch(() => {
+          this.$router.push('/login');
+        });
+    },
     closeDropDown(post) {
       setTimeout(() => {
         // eslint-disable-next-line no-param-reassign
@@ -271,9 +289,9 @@ export default {
     },
     // search
     getPosts() {
+      this.isLoading = true;
       const { id } = this.$route.params;
       this.userId = id;
-      this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/posts-by-userId/${this.userId}`;
       axios
         .get(url)
@@ -304,7 +322,7 @@ export default {
           });
           setTimeout(() => {
             this.isLoading = false;
-          }, 20);
+          }, 1700);
         })
         .catch((err) => {
           console.dir(err);

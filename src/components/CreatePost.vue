@@ -82,6 +82,7 @@ export default {
       ],
       sendOutBtnActive: false,
       isLoading: false,
+      myUserId: '',
     };
   },
   components: {
@@ -118,7 +119,8 @@ export default {
     postNewPo() {
       this.isLoading = true;
       const data = new FormData();
-      data.append('user', '6277d49f5b11695971e06846'); // 主使用者
+      // data.append('user', '6277d49f5b11695971e06846'); // 主使用者
+      data.append('user', this.myUserId); // 主使用者
       // data.append('user', '627a2742b2af092f54100b44'); // 用於建立個人牆
       data.append('tags', '分享');
       data.append('type', 'person');

@@ -54,6 +54,7 @@ export default {
   },
   methods: {
     userTokenCheck(next) {
+      this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/user/auth-check`;
       const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
       const bearerToken = `Bearer ${token}`;
@@ -63,6 +64,7 @@ export default {
         .then((res) => {
           this.myUserId = res.data.userId;
           if (next !== undefined) {
+            this.isLoading = false;
             next();
           }
         })
@@ -80,7 +82,7 @@ export default {
       return diffInDays;
     },
     getUserInformation() {
-      this.isLoading = false;
+      this.isLoading = true;
       const id = this.myUserId; // 主使用者
       // const id = '627a2742b2af092f54100b44'; // 客使用者
       const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;

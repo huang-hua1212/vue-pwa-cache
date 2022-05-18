@@ -41,6 +41,11 @@ const routes = [
         name: 'personalWall',
         component: () => import('@/components/MyPersonalWall.vue'),
       },
+      {
+        path: 'post/:id',
+        name: 'SinglePost',
+        component: () => import('@/components/Post.vue'),
+      },
     ],
   },
   {

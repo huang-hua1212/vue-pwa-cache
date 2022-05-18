@@ -39,16 +39,16 @@
               :class="{ 'sendOutA-Active': isSendOutActive }"
               class="sendOutA"
               href="#"
-              @click.prevent=""
+              @click.prevent="register()"
               ><div class="sendOutBtn-Div" :class="{ 'sendOutBtn-Div-Active': isSendOutActive }">
-                登入
+                註冊
               </div></a
             >
           </div>
         </form>
-        <div class="btn-register-div">
+        <!-- <div class="btn-register-div">
           <a class="btn-register-a" type="button" href="#" @click.prevent="">註冊帳號</a>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
