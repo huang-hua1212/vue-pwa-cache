@@ -36,15 +36,15 @@
               />
               <div class="delBtn">取消</div>
             </a>
-            <a type="button" class="arrow-right-A" href="#" @click.prevent="">
+            <router-link class="arrow-right-A" :to="`/post/${post._id}`">
               <font-awesome-icon
                 class="arrow-right-Icon"
                 icon="circle-arrow-right"
                 size="1x"
                 :style="{ color: '#969799' }"
               />
-              <div class="searchBtn">查看</div>
-            </a>
+              <div class="searchBtn">查看</div></router-link
+            >
           </div>
         </div>
       </div>
@@ -108,7 +108,7 @@ export default {
         .catch(() => {});
     },
     deleteLike() {},
-    seePost() {},
+    goToPost() {},
   },
 };
 </script>
