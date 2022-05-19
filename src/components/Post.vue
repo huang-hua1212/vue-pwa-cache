@@ -172,6 +172,7 @@ export default {
         .catch(() => {});
     },
     getPost() {
+      this.isLoading = true;
       const { id } = this.$route.params;
       const url = `${process.env.VUE_APP_API}/posts/${id}`;
       axios
@@ -194,30 +195,6 @@ export default {
           post.comment = { text: '' };
           post.isDropDown = false;
           this.posts.push(post);
-          // // res.data.datas.forEach((post) => {
-          // //   // eslint-disable-next-line no-param-reassign
-          // //   post.createdAt_Original = post.createdAt;
-          // //   const [first] = post.createdAt.split('T');
-          // //   // eslint-disable-next-line no-param-reassign
-          // //   post.createdAt = first;
-          // // });
-          // this.posts = res.data.datas;
-          // this.sort();
-          // await this.posts.forEach(async (post) => {
-          //   // eslint-disable-next-line no-param-reassign
-          //   post.isLikeClicked = post.whoLikes.includes(this.myUserId);
-          //   await post.commentDetail.forEach((comment) => {
-          //     // eslint-disable-next-line no-param-reassign
-          //     comment.updatedAt_Original = post.updatedAt;
-          //     const [first] = comment.updatedAt.split('T');
-          //     // eslint-disable-next-line no-param-reassign
-          //     comment.updatedAt = first;
-          //   });
-          //   // eslint-disable-next-line no-param-reassign
-          //   post.comment = { text: '' };
-          //   // eslint-disable-next-line no-param-reassign
-          //   post.isDropDown = false;
-          // });
           setTimeout(() => {
             this.isLoading = false;
           }, 20);
