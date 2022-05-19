@@ -127,7 +127,7 @@ export default {
       data.append('image', this.imgFile);
       data.append('content', this.textContent);
       axios
-        .post('https://blooming-sands-85089.herokuapp.com/posts-with-FormDataImage', data)
+        .post('https://blooming-sands-85089.herokuapp.com/posts/with-FormDataImage', data)
         .then(() => {
           this.isLoading = false;
           this.$router.push('/posts-with-comments');

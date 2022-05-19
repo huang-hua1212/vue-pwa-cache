@@ -292,7 +292,7 @@ export default {
       this.isLoading = true;
       const { id } = this.$route.params;
       this.userId = id;
-      const url = `${process.env.VUE_APP_API}/posts-by-userId/${this.userId}`;
+      const url = `${process.env.VUE_APP_API}/posts/by-userId/${this.userId}`;
       axios
         .get(url)
         .then((res) => {
@@ -337,7 +337,7 @@ export default {
     },
     searchByText() {
       this.isLoading = true;
-      const url = `${process.env.VUE_APP_API}/posts-by-userId/${this.userId}`;
+      const url = `${process.env.VUE_APP_API}/posts/by-userId/${this.userId}`;
       const data = {
         content: this.searchText,
       };

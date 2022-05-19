@@ -251,7 +251,7 @@ export default {
       const data = {
         content: this.searchText,
       };
-      const url = 'https://blooming-sands-85089.herokuapp.com/posts-by-content';
+      const url = 'https://blooming-sands-85089.herokuapp.com/posts/by-content';
       axios
         .post(url, data)
         .then(async (res) => {
