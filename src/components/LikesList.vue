@@ -7,14 +7,23 @@
         </div>
         <div class="under"></div>
       </div>
-      <div class="pos_2">
+      <div class="pos_2" v-for="post in posts" :key="post">
         <div class="like">
           <a type="button" class="likeDetails" href="#" @click.prevent="">
-            <div class="likeHeadImg"
-            style="width: 3.5em; padding-top: 3.5em"></div>
+            <div
+              class="likeHeadImg"
+              :style="{ 'background-image': 'url(' + post.user.photo + ')' }"
+              style="
+                width: 3.5em;
+                padding-top: 3.5em;
+                background-size: cover;
+                background-position: center;
+                overflow: hidden;
+              "
+            ></div>
             <div class="likeName">
-              <h3>名稱</h3>
-              <h5>發文時間: 2022/05/01</h5>
+              <h3>{{ post.user.name }}</h3>
+              <h5>發文時間: {{ post.updatedAt }}</h5>
             </div>
           </a>
           <div class="delete-and-seeDetails">
@@ -40,15 +49,67 @@
         </div>
       </div>
     </div>
+    <!--  PROGRESS BAR 1 --- Loading PAGE -->
+    <div v-show="isLoading" class="loadingBackground"></div>
+    <div v-show="isLoading" class="loading">
+      <div class="lds-circle"><div></div></div>
+    </div>
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
-    return {};
+    return {
+      myUserId: '',
+      myUserInformation: {},
+      posts: [],
+      isLoading: false,
+    };
   },
-  created() {},
-  methods: {},
+  mounted() {
+    this.userTokenCheck(this.getMyUserInformation);
+  },
+  methods: {
+    userTokenCheck(next) {
+      const url = `${process.env.VUE_APP_API}/user/auth-check`;
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      const bearerToken = `Bearer ${token}`;
+      axios.defaults.headers.common.Authorization = bearerToken;
+      axios
+        .post(url)
+        .then((res) => {
+          this.myUserId = res.data.userId;
+          if (next !== undefined) {
+            next();
+          }
+        })
+        .catch(() => {
+          this.$router.push('/login');
+        });
+    },
+    getMyUserInformation() {
+      this.isLoading = true;
+
+      const id = this.myUserId; // 主使用者
+      const url = `${process.env.VUE_APP_API}/user/${id}`;
+
+      axios
+        .get(url)
+        .then((res) => {
+          const { _id, photo, likePosts } = res.data.datas;
+          this.myUserInformation = { _id, photo, likePosts };
+          this.posts = likePosts;
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 20);
+        })
+        .catch(() => {});
+    },
+    deleteLike() {},
+    seePost() {},
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -56,7 +117,6 @@ export default {
   margin-left: 0em;
   height: 42em;
   padding-bottom: 0;
-  // height: 36em;
   padding-bottom: 8em;
 }
 .Likes {
