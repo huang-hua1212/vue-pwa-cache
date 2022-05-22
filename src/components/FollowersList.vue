@@ -85,7 +85,7 @@ export default {
       this.isLoading = true;
       const id = this.myUserId; // 主使用者
       // const id = '627a2742b2af092f54100b44'; // 客使用者
-      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `https://blooming-sands-85089.herokuapp.com/users/${id}`;
 
       axios
         .get(url)

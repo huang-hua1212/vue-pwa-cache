@@ -160,7 +160,7 @@ export default {
     getMyUserInformation() {
       const id = this.myUserId; // 主使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
-      const url = `${process.env.VUE_APP_API}/user/${id}`;
+      const url = `${process.env.VUE_APP_API}/users/${id}`;
       console.log(url);
       axios
         .get(url)
@@ -206,7 +206,7 @@ export default {
     addUserLikePost(post_) {
       const post = post_;
       const postId = post._id;
-      const url = `${process.env.VUE_APP_API}/user/${this.myUserId}`;
+      const url = `${process.env.VUE_APP_API}/users/${this.myUserId}`;
       this.myUserInformation.likePosts.push(postId);
       const data = {
         likePosts: this.myUserInformation.likePosts,
@@ -247,7 +247,7 @@ export default {
     deleteUserLikePost(post_) {
       const post = post_;
       const postId = post._id;
-      const url = `${process.env.VUE_APP_API}/user/${this.myUserId}`;
+      const url = `${process.env.VUE_APP_API}/users/${this.myUserId}`;
       this.myUserInformation.likePosts = this.myUserInformation.likePosts.filter(
         (likePost) => likePost !== postId,
       );

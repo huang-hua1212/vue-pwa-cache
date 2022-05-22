@@ -257,7 +257,7 @@ export default {
     getMyUserInformation() {
       const id = this.myUserId; // 主使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
-      const url = `${process.env.VUE_APP_API}/user/${id}`;
+      const url = `${process.env.VUE_APP_API}/users/${id}`;
       axios
         .get(url)
         .then((res) => {
@@ -269,7 +269,7 @@ export default {
     getUserInformation() {
       const { id } = this.$route.params;
       this.userId = id;
-      const url = `${process.env.VUE_APP_API}/user/${this.userId}`;
+      const url = `${process.env.VUE_APP_API}/users/${this.userId}`;
       axios
         .get(url)
         .then((res) => {

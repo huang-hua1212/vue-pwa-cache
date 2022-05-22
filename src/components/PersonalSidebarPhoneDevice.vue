@@ -59,7 +59,7 @@ export default {
   methods: {
     getUserInformation() {
       const id = '6277d49f5b11695971e06846';
-      const url = `https://blooming-sands-85089.herokuapp.com/user/${id}`;
+      const url = `https://blooming-sands-85089.herokuapp.com/users/${id}`;
 
       axios
         .get(url)
