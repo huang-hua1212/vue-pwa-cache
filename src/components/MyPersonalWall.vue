@@ -213,6 +213,7 @@ export default {
       }, 70);
     },
     follow() {
+      this.isCancelFollowBtnActive = true;
       const myUserId = this.myUserInformation._id;
       const url = `${process.env.VUE_APP_API}/userFollowing/${myUserId}`;
       const data = {
@@ -224,13 +225,15 @@ export default {
         .post(url, data)
         .then((res) => {
           this.followingId = res.data.data;
-          this.isCancelFollowBtnActive = true;
+          // 移動到最上面，增加使用者體驗
+          // this.isCancelFollowBtnActive = true;
         })
         .catch((err) => {
           console.dir(err);
         });
     },
     cancelFollow() {
+      this.isCancelFollowBtnActive = false;
       const myUserId = this.myUserInformation._id;
       const url = `${process.env.VUE_APP_API}/userFollowing/${myUserId}`;
 
@@ -241,7 +244,8 @@ export default {
         .patch(url, data)
         .then(() => {
           this.followingId = '';
-          this.isCancelFollowBtnActive = false;
+          // 移動到最上面，增加使用者體驗
+          // this.isCancelFollowBtnActive = false;
         })
         .catch((err) => {
           console.dir(err);
@@ -583,6 +587,7 @@ export default {
   margin-bottom: 0em;
 }
 .name-Date h5 {
+  margin-left: -1.5em;
   margin-top: 0em;
 }
 .follow-Btn {

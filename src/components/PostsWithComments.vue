@@ -381,6 +381,7 @@ export default {
       }
     },
     addComment(post) {
+      this.isLoading = true;
       const myUserId = this.myUserInformation._id;
       const postId = post._id;
       const url = `${process.env.VUE_APP_API}/postAddComment/${postId}`;
@@ -390,11 +391,11 @@ export default {
       };
       axios
         .post(url, data)
-        .then((res) => {
-          console.log(res.data.data);
+        .then(() => {
           this.addCommentNum(post);
           // eslint-disable-next-line no-param-reassign
           this.getPosts();
+          this.isLoading = false;
         })
         .catch((err) => {
           console.log(err);
