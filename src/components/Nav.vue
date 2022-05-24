@@ -110,6 +110,7 @@ export default {
     getUserInformation() {
       const id = this.myUserId;
       const url = `https://blooming-sands-85089.herokuapp.com/users/${id}`;
+
       axios
         .get(url)
         .then((res) => {
