@@ -93,7 +93,7 @@ export default {
       this.isLoading = true;
 
       const id = this.myUserId; // 主使用者
-      const url = `${process.env.VUE_APP_API}/user/${id}`;
+      const url = `${process.env.VUE_APP_API}/users/${id}`;
 
       axios
         .get(url)

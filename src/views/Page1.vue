@@ -7,7 +7,7 @@
       <!-- device -->
       <personal-sidebar-phone-device
         class="personal-sidebar-phoneDevice"
-        ref="personalSidebar"
+        ref="personalSidebarDevice"
       ></personal-sidebar-phone-device>
     </div>
   </div>
@@ -30,6 +30,7 @@ export default {
   methods: {
     changeUserProfile() {
       this.$refs.personalSidebar.getUserInformation();
+      this.$refs.personalSidebarDevice.getUserInformation();
     },
   },
 };
