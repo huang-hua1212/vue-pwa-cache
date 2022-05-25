@@ -75,7 +75,9 @@ export default {
       }
     },
     register() {
-      const url = `${process.env.VUE_APP_API}/user/register`;
+      // const url = `${process.env.VUE_APP_API}/user/register`;
+      const url = `${process.env.VUE_APP_API}/users/sign_up`;
+
       const data = {
         name: this.nickName,
         username: this.email,
