@@ -1,5 +1,5 @@
 <template>
-  <Nav class="nav"></Nav>
+  <Nav class="nav" ref="nav"></Nav>
   <div class="background">
     <div class="page1Content">
       <router-view class="postsShow" @changeUserProfile="changeUserProfile"></router-view>
@@ -30,6 +30,7 @@ export default {
   methods: {
     changeUserProfile() {
       this.$refs.personalSidebar.getUserInformation();
+      this.$refs.nav.getUserInformation();
       this.$refs.personalSidebarDevice.getUserInformation();
     },
   },
