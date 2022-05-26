@@ -62,8 +62,13 @@
               @keyup.prevent="isBtnSendOutActive()"
             ></Field>
           </div>
-          <error-message name="password" class="invalid-feedback emailErrMessage"></error-message>
-          <error-message name="email" class="invalid-feedback emailErrMessage"></error-message>
+          <div class="errorDisplay">
+            <error-message name="email" class="invalid-feedback emailErrMessage"></error-message>
+            <br /><error-message
+              name="password"
+              class="invalid-feedback emailErrMessage"
+            ></error-message>
+          </div>
           <div class="btn-OuterDiv">
             <a
               type="button"
@@ -186,12 +191,19 @@ export default {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.emailErrMessage {
+.errorDisplay {
+  width: 100%;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
   top: 44%;
 }
+// .emailErrMessage {
+//   position: absolute;
+//   left: 50%;
+//   transform: translate(-50%, 0);
+//   top: 44%;
+// }
 .password-div {
   width: 100%;
   margin-top: 5%;
