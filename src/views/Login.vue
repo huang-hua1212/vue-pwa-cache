@@ -5,7 +5,7 @@
       <div class="RightForm">
         <div class="title"><h>MetalWall</h></div>
         <div class="subTitle"><h>到元宇宙展開全新社團</h></div>
-        <form>
+        <!-- <form>
           <div class="email-div">
             <input
               type="email"
@@ -36,7 +36,47 @@
               </div></a
             >
           </div>
-        </form>
+        </form> -->
+        <Form v-slot="{ errors }" id="form" class="form" @submit="toCheckoutPayment2">
+          <div class="email-div">
+            <Field
+              type="email"
+              name="email"
+              class="email-input"
+              v-model="email"
+              rules="required|email"
+              :class="{ 'is-invalid': errors['email'] }"
+              placeholder="Email"
+              @keyup.prevent="isBtnSendOutActive()"
+            ></Field>
+          </div>
+          <div class="password-div">
+            <Field
+              type="password"
+              name="password"
+              class="password-input"
+              v-model="password"
+              rules="required"
+              :class="{ 'is-invalid': errors['password'] }"
+              placeholder="Password"
+              @keyup.prevent="isBtnSendOutActive()"
+            ></Field>
+          </div>
+          <error-message name="password" class="invalid-feedback emailErrMessage"></error-message>
+          <error-message name="email" class="invalid-feedback emailErrMessage"></error-message>
+          <div class="btn-OuterDiv">
+            <a
+              type="button"
+              :class="{ 'sendOutA-Active': isSendOutActive }"
+              class="sendOutA"
+              @click.prevent="login()"
+              href="#"
+              ><div class="sendOutBtn-Div" :class="{ 'sendOutBtn-Div-Active': isSendOutActive }">
+                登入
+              </div></a
+            >
+          </div>
+        </Form>
         <div class="btn-register-div">
           <a class="btn-register-a" type="button" href="#" @click.prevent="">註冊帳號</a>
         </div>
@@ -129,6 +169,10 @@ export default {
   font-family: 'Paytone One', sans-serif;
   font-weight: bold;
 }
+// 為了讓error absolute位置(不占空間，卻又絕對)
+.form {
+  position: relative;
+}
 .email-div {
   margin-top: 9%;
 }
@@ -142,9 +186,17 @@ export default {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.emailErrMessage {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 44%;
+}
 .password-div {
   width: 100%;
   margin-top: 5%;
+  // margin-top: 12%;
+  // margin-top: 15%;
 }
 .password-div input {
   border: black solid;
@@ -158,6 +210,7 @@ export default {
 }
 .btn-OuterDiv {
   margin-top: 25%;
+  // margin-top: 18%;
   margin-bottom: 0;
 }
 a {
