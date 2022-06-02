@@ -168,17 +168,22 @@ export default {
     userTokenCheck(next) {
       const url = `${process.env.VUE_APP_API}/user/auth-check`;
       const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      console.log('token:', token);
       const bearerToken = `Bearer ${token}`;
       axios.defaults.headers.common.Authorization = bearerToken;
       axios
         .post(url)
         .then((res) => {
+          console.log('res:', res);
           this.myUserId = res.data.userId;
           if (next !== undefined) {
             next();
+          } else {
+            this.$router.push('/login');
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log('err:', err);
           this.$router.push('/login');
         });
     },

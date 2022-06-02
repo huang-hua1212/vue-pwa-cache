@@ -122,6 +122,8 @@ export default {
         .post(url, data)
         .then((res) => {
           document.cookie = `hexToken=${res.data.token}; expired=${res.data.token_expiresAt};`;
+          // document.cookie = `hexToken=12345; expired=${res.data.token_expiresAt};`;
+
           this.$router.push('/posts-with-comments');
         })
         .catch((err) => {
