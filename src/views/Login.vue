@@ -5,38 +5,6 @@
       <div class="RightForm">
         <div class="title"><h>MetalWall</h></div>
         <div class="subTitle"><h>到元宇宙展開全新社團</h></div>
-        <!-- <form>
-          <div class="email-div">
-            <input
-              type="email"
-              class="email-input"
-              v-model="email"
-              placeholder="Email"
-              @keyup.prevent="isBtnSendOutActive()"
-            />
-          </div>
-          <div class="password-div">
-            <input
-              type="password"
-              class="password-input"
-              v-model="password"
-              placeholder="Password"
-              @keyup.prevent="isBtnSendOutActive()"
-            />
-          </div>
-          <div class="btn-OuterDiv">
-            <a
-              type="button"
-              :class="{ 'sendOutA-Active': isSendOutActive }"
-              class="sendOutA"
-              @click.prevent="login()"
-              href="#"
-              ><div class="sendOutBtn-Div" :class="{ 'sendOutBtn-Div-Active': isSendOutActive }">
-                登入
-              </div></a
-            >
-          </div>
-        </form> -->
         <Form v-slot="{ errors }" id="form" class="form" @submit="toCheckoutPayment2">
           <div class="email-div">
             <Field
