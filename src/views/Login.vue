@@ -89,6 +89,7 @@ export default {
       axios
         .post(url, data)
         .then((res) => {
+          // 儲存cookie
           document.cookie = `hexToken=${res.data.token}; expired=${res.data.token_expiresAt};`;
           // document.cookie = `hexToken=12345; expired=${res.data.token_expiresAt};`;
 
