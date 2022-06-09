@@ -9,13 +9,19 @@ export default {
   data() {
     return {};
   },
-  created() {
-    // axios.defaults.withCredentials = true;
-  },
+  created() {},
   methods: {
     sign_in() {
+      // const config = {
+      //   withCredentials: true,
+      //   headers: { 'Access-Control-Allow-Origin': '*' },
+      //   crossdomain: true,
+      // };
       axios.defaults.withCredentials = true;
+      // 必須用localhost才可以save cookie，若用heroku會儲存不了cookie
       const url = `${process.env.VUE_APP_API}/session-login/sign_in`;
+      // const url = 'https://all-the-cors.herokuapp.com/blooming-sands-85089.herokuapp.com/session-login/sign_in';
+      // const url = 'http://localhost:3000/session-login/sign_in';
       const data = {
         firstName: 'aha@gmail.com',
         lastName: 'a123456',
