@@ -7,11 +7,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/test/sessionLoginTest.vue'),
   },
   {
-    path: '/pring-another-page-test',
-    name: 'pringAnotherPageTest',
-    component: () => import(/* webpackChunkName: "about" */ '../views/test/printAnotherPageTest.vue'),
-  },
-  {
     path: '/',
     name: 'Page1',
     component: () => import(/* webpackChunkName: "about" */ '../views/Page1.vue'),
