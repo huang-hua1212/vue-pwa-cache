@@ -1,0 +1,15 @@
+# 依赖 nginx 容器
+# FROM hyuhua616/vue-jenkins
+FROM nginx:stable-alpine as production-stage
+
+# 作者
+MAINTAINER songxiaoguang
+
+# 首先删除 nginx default.conf 文件
+RUN rm /etc/nginx/conf.d/default.conf
+
+# 用本地的 default.conf 替换 nginx 镜像的默認配置
+ADD default.conf /etc/nginx/conf.d/
+
+# 將項目打包後的 dist 目錄，複製到 default.conf 指定的發布目錄 
+COPY dist/ /usr/share/nginx/html
