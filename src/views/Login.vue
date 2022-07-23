@@ -79,8 +79,8 @@ export default {
     },
     login() {
       // TEST
-      // const url = `${process.env.VUE_APP_API}/user/login`;
-      const url = `${process.env.VUE_APP_API}/users/sign_in`;
+      const url = `${process.env.VUE_APP_API}/user/login`;
+      // const url = `${process.env.VUE_APP_API}/users/sign_in`;
 
       const data = {
         username: this.email,
