@@ -197,14 +197,22 @@ export default {
       const id = this.myUserId; // 主使用者
       // const id = '627b5e55b50ea7cd805ddcca'; // 測試使用者
       const url = `${process.env.VUE_APP_API}/users/${id}`;
-      axios
-        .get(url)
+      fetch(url)
         .then((res) => {
+          console.log('fetch success!!');
           const { _id, photo, likePosts } = res.data.datas;
           this.myUserInformation = { _id, photo, likePosts };
           // return this.getUserInformation();
         })
         .catch(() => {});
+      // axios
+      //   .get(url)
+      //   .then((res) => {
+      //     const { _id, photo, likePosts } = res.data.datas;
+      //     this.myUserInformation = { _id, photo, likePosts };
+      //     // return this.getUserInformation();
+      //   })
+      //   .catch(() => {});
     },
     getPosts() {
       this.isLoading = true;

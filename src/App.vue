@@ -4,6 +4,7 @@
 </template>
 <script>
 // import Nav from '@/components/Nav.vue';
+// const axios = require('axios');
 
 export default {
   data() {
